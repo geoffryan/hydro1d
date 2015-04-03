@@ -1,0 +1,6 @@
+.DS_store
+bin/hydro1d
+*.o
+notebooks/
+out*
+*.swp
