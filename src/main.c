@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    printf("\nWelcome to Hydro-1D!\n\n");
+    printf("\nWelcome to Hydro-1D!\n%s\n\n", VERSION);
 
     struct parList pars = PAR_DEFAULT;
     struct grid grid = GRID_DEFAULT;
