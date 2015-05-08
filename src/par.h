@@ -1,5 +1,5 @@
-#ifndef ACCRETOR_PAR
-#define ACCRETOR_PAR
+#ifndef HYDRO1D_PAR
+#define HYDRO1D_PAR
 
 enum{VAR_DBL, VAR_INT, VAR_LON};
 
@@ -12,7 +12,7 @@ struct parList
     int nx;
     int nghost;
     int nc;
-    int nq;
+    int np;
     double xmin;
     double xmax;
 };
@@ -25,7 +25,7 @@ const static struct parList PAR_DEFAULT = {
     .nx = 1,
     .nghost = 1,
     .nc = 3,
-    .nq = 0,
+    .np = 0,
     .xmin = 0.0,
     .xmax = 1.0
 };

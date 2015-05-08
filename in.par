@@ -1,13 +1,12 @@
 #Parameter File for HYDRO1D
 
-Hydro
-Hydro       0    // 0 Newtonian
-EOS         0    // 0 Ideal Gamma-law gas.
-Cool        0    // 0 No Cooling
-TimeStep    0    // 0 Forward-Euler
-Nx          100  // Number of zones
-Nghost      100  // Number of ghost zones
-Nc          100  // Number of conserved quantities
-Nq          100  // Total number of evolved quantities
+Hydro       7    // 0 Newtonian
+EOS         7    // 0 Ideal Gamma-law gas.
+Cool        7    // 0 No Cooling
+Timestep    7    // 0 Forward-Euler
+Nx          32   // Number of zones
+Nghost      2    // Number of ghost zones
+Ncons       3   // Number of conserved quantities
+Npass       0    // Number of passive quantities
 Xmin        1.0
 Xmax        2.0

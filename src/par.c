@@ -60,7 +60,7 @@ void read_pars(struct parList *theParList, char filename[])
     readvar(filename, "Nx",     VAR_INT, &(theParList->nx));
     readvar(filename, "Nghost",     VAR_INT, &(theParList->nghost));
     readvar(filename, "Ncons",     VAR_INT, &(theParList->nc));
-    readvar(filename, "Ntot",     VAR_INT, &(theParList->nq));
+    readvar(filename, "Npass",     VAR_INT, &(theParList->np));
     readvar(filename, "Xmin",     VAR_DBL, &(theParList->xmin));
     readvar(filename, "Xmax",     VAR_DBL, &(theParList->xmax));
 }
@@ -75,7 +75,7 @@ void print_pars(struct parList *theParList)
     printf("Nx: %d\n", theParList->nx);
     printf("Nghost: %d\n", theParList->nghost);
     printf("Ncons: %d\n", theParList->nc);
-    printf("Ntot: %d\n", theParList->nq);
+    printf("Npass: %d\n", theParList->np);
     printf("Xmin: %g\n", theParList->xmin);
     printf("Xmax: %g\n", theParList->xmax);
     printf("\n");
