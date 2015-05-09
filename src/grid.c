@@ -7,6 +7,24 @@
 //Local Functions
 double minmod(double a, double b, double c);
 
+int set_reconstruction(struct parList *pars)
+{
+    int err = 0;
+    int choice = pars->recon;
+
+    if(choice == 0)
+        reconstruction = &interpolate_constant;
+    else if(choice == 1)
+        reconstruction = &interpolate_plm;
+    else
+    {
+        err = 1;
+        printf("ERROR - Invalid Reconstruction choice: %d\n", choice);
+    }
+
+    return err;
+}
+
 void make_grid(struct grid *g, struct parList *pars)
 {
     //Set grid variables from parameter list and allocate
@@ -16,6 +34,7 @@ void make_grid(struct grid *g, struct parList *pars)
     g->ng = pars->nghost;
     g->xmin = pars->xmin;
     g->xmax = pars->xmax;
+    g->t = pars->tmin;
     g->nc = pars->nc;
     g->nq = pars->nc + pars->np;
     g->PLM = pars->plm;
@@ -44,8 +63,11 @@ void print_grid(struct grid *g, char *filename)
 
     int NQ = g->nq;
 
-    fprintf(f, "%.12g", g->x[0]);
-    for(i=1; i<g->nx+1; i++)
+    fprintf(f, "%s\n", VERSION);
+
+    fprintf(f, "t %.12g\n", g->t);    
+    fprintf(f, "x");
+    for(i=0; i<g->nx+1; i++)
         fprintf(f, " %.12g", g->x[i]);
     fprintf(f, "\n");
 

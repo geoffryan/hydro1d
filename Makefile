@@ -15,7 +15,7 @@ GIT_VERSION = $(shell git describe --dirty --always --tags)
 
 DEBUG    = -g
 INCLUDES = 
-CFLAGS   = -O3 -c $(DEBUG) $(INCLUDES) -DVERSION=\"$(GIT_VERSION)\"
+CFLAGS   = -O3 -Wall -c $(DEBUG) $(INCLUDES) -DVERSION=\"$(GIT_VERSION)\"
 LDFLAGS  = -lm
 
 CC       = gcc

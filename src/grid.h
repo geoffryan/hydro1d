@@ -12,6 +12,7 @@ struct grid
     int nq;
     double xmin;
     double xmax;
+    double t;
     double *x;
     double *prim;
     double *cons;
@@ -28,6 +29,7 @@ const static struct grid GRID_DEFAULT = {
     .nq = 0,
     .xmin = 0.0,
     .xmax = 1.0,
+    .t = 0.0,
     .x = NULL,
     .prim = NULL,
     .cons = NULL,
@@ -36,6 +38,9 @@ const static struct grid GRID_DEFAULT = {
     .PLM = 1.5
 };
 
+void (*reconstruction)(struct grid *);
+
+int set_reconstruction(struct parList *pars);
 void make_grid(struct grid *g, struct parList *pars);
 void print_grid(struct grid *g, char *filename);
 void free_grid(struct grid *g);

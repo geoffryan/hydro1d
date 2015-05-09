@@ -4,3 +4,4 @@ bin/hydro1d
 notebooks/
 out*
 *.swp
+*.txt

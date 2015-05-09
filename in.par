@@ -3,11 +3,29 @@
 Hydro       7    // 0 Newtonian
 EOS         7    // 0 Ideal Gamma-law gas.
 Cool        7    // 0 No Cooling
-Timestep    7    // 0 Forward-Euler
+Recon       0    // 0 PCM, 1 PLM
+Riemann     7    // 
+Timestep    0    // 0 Forward-Euler, 1 RK2
 Nx          10   // Number of zones
 Nghost      2    // Number of ghost zones
 Ncons       3   // Number of conserved quantities
 Npass       0    // Number of passive quantities
+
+Tmin        0.0
+Tmax        10.0
 Xmin        1.0
 Xmax        2.0
+
 PLM         2.0
+GammaLaw    1.6666666667
+
+Init        0
+InitPar1    1.5
+InitPar2    1.0
+InitPar3    1.0
+InitPar4    0.0
+InitPar5    0.1
+InitPar6    0.1
+InitPar7    0.0
+InitPar8    0.0
+
