@@ -40,17 +40,28 @@ void substep(struct grid *g, double dt, struct parList *pars)
 void add_fluxes(struct grid *g, int a, int b, int nq, double dt, 
                 struct parList *pars)
 {
-    int i;
+    int i, q;
 
     for(i=a; i<=b; i++)
     {
-        double xL = g->x[i-1]; 
-        double xC = g->x[i]; 
-        double xR = g->x[i+1];
-        double x1 = 0.5*(xL+xC);
-        double x2 = 0.5*(xC+xR);
-        riemann_solve(&(g->prim[(i-1)*nq]), &(g->cons[(i-1)*nq]), x1,
-                &(g->prim[i*nq]), &(g->prim[i*nq]), x2, xC, dt, pars);
+        double xLL = g->x[i-1]; 
+        double x = g->x[i]; 
+        double xRR = g->x[i+1];
+        double xL = 0.5*(xLL+x);
+        double xR = 0.5*(x+xRR);
+        double primL[nq], primR[nq], F[nq];
+        for(q=0; q<nq; q++)
+        {
+            primL[q] = g->prim[(i-1)*nq+q] + g->grad[(i-1)*nq+q] * (x-xL);
+            primR[q] = g->prim[  i  *nq+q] + g->grad[  i  *nq+q] * (x-xR);
+        }
+        riemann_flux(primL, primR, F, nq, x, dt, pars);
+        double dA = 1.0;
+        for(q=0; q<nq; q++)
+        {
+            g->cons[(i-1)*nq+q] -= F[q] * dA * dt;
+            g->cons[  i  *nq+q] += F[q] * dA * dt;
+        }
     }
 }
 

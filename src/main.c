@@ -3,6 +3,7 @@
 #include "grid.h"
 #include "par.h"
 #include "initial.h"
+#include "riemann.h"
 #include "timestep.h"
 
 void getTheHellOuttaHere(struct grid *g);
@@ -26,7 +27,9 @@ int main(int argc, char *argv[])
 
     err += set_initial(&pars);
     err += set_reconstruction(&pars);
+    err += set_riemann_solver(&pars);
     err += set_timestep(&pars);
+
     if(err)
     {
         printf("Error during setup.\n");

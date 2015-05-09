@@ -5,3 +5,5 @@ notebooks/
 out*
 *.swp
 *.txt
+*.png
+*.pyc
