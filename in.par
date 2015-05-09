@@ -3,7 +3,7 @@
 Hydro       7    // 0 Newtonian
 EOS         7    // 0 Ideal Gamma-law gas.
 Cool        7    // 0 No Cooling
-Recon       0    // 0 PCM, 1 PLM
+Recon       1    // 0 PCM, 1 PLM
 Riemann     7    // 
 Timestep    0    // 0 Forward-Euler, 1 RK2
 Nx          10   // Number of zones

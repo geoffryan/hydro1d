@@ -45,7 +45,7 @@ void flux(double *prim, double *F, double x, struct parList *pars)
     F[SXX] = rho*v*v + P;
 }
 
-void add_source(double *prim, double *cons, double x, double dV, 
+void add_source(double *prim, double *cons, double x, double dVdt, 
                 struct parList *pars)
 {
 }
