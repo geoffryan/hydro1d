@@ -19,6 +19,8 @@ int main(int argc, char *argv[])
     print_pars(&pars);
 
     make_grid(&grid, &pars);
+    interpolate_constant(&grid);
+    interpolate_plm(&grid);
     print_grid(&grid, "grid.txt");
     free_grid(&grid);
 

@@ -63,6 +63,7 @@ void read_pars(struct parList *theParList, char filename[])
     readvar(filename, "Npass",     VAR_INT, &(theParList->np));
     readvar(filename, "Xmin",     VAR_DBL, &(theParList->xmin));
     readvar(filename, "Xmax",     VAR_DBL, &(theParList->xmax));
+    readvar(filename, "PLM",     VAR_DBL, &(theParList->plm));
 }
 
 void print_pars(struct parList *theParList)
@@ -78,5 +79,6 @@ void print_pars(struct parList *theParList)
     printf("Npass: %d\n", theParList->np);
     printf("Xmin: %g\n", theParList->xmin);
     printf("Xmax: %g\n", theParList->xmax);
+    printf("PLM: %g\n", theParList->plm);
     printf("\n");
 }

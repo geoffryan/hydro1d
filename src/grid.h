@@ -17,6 +17,7 @@ struct grid
     double *cons;
     double *cons_rk;
     double *grad;
+    double PLM;
 };
 
 const static struct grid GRID_DEFAULT = {
@@ -31,11 +32,15 @@ const static struct grid GRID_DEFAULT = {
     .prim = NULL,
     .cons = NULL,
     .cons_rk = NULL,
-    .grad = NULL
+    .grad = NULL,
+    .PLM = 1.5
 };
 
 void make_grid(struct grid *g, struct parList *pars);
 void print_grid(struct grid *g, char *filename);
 void free_grid(struct grid *g);
+
+void interpolate_constant(struct grid *g);
+void interpolate_plm(struct grid *g);
 
 #endif

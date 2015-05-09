@@ -15,6 +15,7 @@ struct parList
     int np;
     double xmin;
     double xmax;
+    double plm;
 };
 
 const static struct parList PAR_DEFAULT = {
@@ -27,7 +28,8 @@ const static struct parList PAR_DEFAULT = {
     .nc = 3,
     .np = 0,
     .xmin = 0.0,
-    .xmax = 1.0
+    .xmax = 1.0,
+    .plm = 1.5
 };
 
 int readvar(char filename[], char key[], int vtype, void *ptr);
