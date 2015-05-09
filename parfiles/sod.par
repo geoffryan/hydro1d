@@ -1,0 +1,35 @@
+#Parameter File for HYDRO1D
+
+Hydro       7    // 0 Newtonian
+EOS         7    // 0 Ideal Gamma-law gas.
+Cool        7    // 0 No Cooling
+Recon       1    // 0 PCM, 1 PLM
+Riemann     1    // 0 Lax-Friedrichs, 1 HLL
+Timestep    0    // 0 Forward-Euler, 1 RK2
+BCInner     0    // 0 Fixed, 1 Outflow
+BCOuter     0    // 0 Fixed, 1 Outflow
+
+Nx          128   // Number of zones
+Nghost      2    // Number of ghost zones
+Ncons       3    // Number of conserved quantities
+Npass       0    // Number of passive quantities
+
+Tmin        0.0
+Tmax        0.2
+Xmin        0.0
+Xmax        1.0
+
+PLM         1.5
+CFL         0.5
+GammaLaw    1.4
+
+Init        0
+InitPar1    0.5   // Initial Shock Position
+InitPar2    1.0   // Rho L
+InitPar3    1.0   // P L
+InitPar4    0.0   // V L
+InitPar5    0.1   // Rho R
+InitPar6    0.1   // P R
+InitPar7    0.0   // v R
+InitPar8    0.0
+

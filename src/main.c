@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "grid.h"
 #include "par.h"
+#include "boundary.h"
 #include "initial.h"
 #include "riemann.h"
 #include "timestep.h"
@@ -29,6 +30,7 @@ int main(int argc, char *argv[])
     err += set_reconstruction(&pars);
     err += set_riemann_solver(&pars);
     err += set_timestep(&pars);
+    err += set_bc(&pars);
 
     if(err)
     {

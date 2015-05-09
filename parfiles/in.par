@@ -6,6 +6,10 @@ Cool        7    // 0 No Cooling
 Recon       0    // 0 PCM, 1 PLM
 Riemann     0    // 0 Lax-Friedrichs, 1 HLL
 Timestep    0    // 0 Forward-Euler, 1 RK2
+BCInner     0    // 0 Fixed, 1 Outflow
+BCOuter     0    // 0 Fixed, 1 Outflow
+
+
 Nx          10   // Number of zones
 Nghost      2    // Number of ghost zones
 Ncons       3    // Number of conserved quantities
@@ -17,6 +21,7 @@ Xmin        1.0
 Xmax        2.0
 
 PLM         2.0
+CFL         0.5
 GammaLaw    1.6666666667
 
 Init        0

@@ -43,7 +43,7 @@ double get_dt(struct grid *g, struct parList *pars)
         dtmin = dt < dtmin ? dt : dtmin;
     }
 
-    return dtmin;
+    return pars->cfl * dtmin;
 }
 
 void step_fe(struct grid *g, double dt, struct parList *pars)

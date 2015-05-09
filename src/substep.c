@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "grid.h"
 #include "par.h"
+#include "boundary.h"
 #include "hydro.h"
 #include "riemann.h"
 #include "timestep.h"
@@ -23,15 +24,19 @@ void substep(struct grid *g, double dt, struct parList *pars)
     reconstruction(g);
 
     //Solve Riemann problems.
-    add_fluxes(g, 1, nx-1, nq, dt, pars);
+    add_fluxes(g, 2, nx-2, nq, dt, pars);
     
     //Add Sources.
-    add_sources(g, 0, nx-1, nq, dt, pars);
+    add_sources(g, 1, nx-2, nq, dt, pars);
     
-    //Boundary Conditions.
-
     //Update prims.
     calc_prim(g, pars);
+
+    //Boundary Conditions.
+    bc_inner(g, pars);
+    bc_outer(g, pars);
+
+    //Re-update cons.
     calc_cons(g, pars);
 }
 

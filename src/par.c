@@ -59,6 +59,8 @@ void read_pars(struct parList *theParList, char filename[])
     readvar(filename, "Recon",  VAR_INT, &(theParList->recon));
     readvar(filename, "Riemann",  VAR_INT, &(theParList->riemann));
     readvar(filename, "Timestep",  VAR_INT, &(theParList->step));
+    readvar(filename, "BCInner",  VAR_INT, &(theParList->bcInner));
+    readvar(filename, "BCOuter",  VAR_INT, &(theParList->bcOuter));
     readvar(filename, "Nx",     VAR_INT, &(theParList->nx));
     readvar(filename, "Nghost",     VAR_INT, &(theParList->nghost));
     readvar(filename, "Ncons",     VAR_INT, &(theParList->nc));
@@ -68,6 +70,7 @@ void read_pars(struct parList *theParList, char filename[])
     readvar(filename, "Xmin",     VAR_DBL, &(theParList->xmin));
     readvar(filename, "Xmax",     VAR_DBL, &(theParList->xmax));
     readvar(filename, "PLM",     VAR_DBL, &(theParList->plm));
+    readvar(filename, "CFL",     VAR_DBL, &(theParList->cfl));
     readvar(filename, "GammaLaw",     VAR_DBL, &(theParList->gammalaw));
     readvar(filename, "Init",         VAR_INT, &(theParList->init));
     readvar(filename, "InitPar1",     VAR_DBL, &(theParList->initPar1));
@@ -89,6 +92,8 @@ void print_pars(struct parList *theParList)
     printf("Recon: %d\n", theParList->recon);
     printf("Riemann: %d\n", theParList->riemann);
     printf("Timestep: %d\n", theParList->step);
+    printf("BCInner: %d\n", theParList->bcInner);
+    printf("BCOuter: %d\n", theParList->bcOuter);
     printf("Nx: %d\n", theParList->nx);
     printf("Nghost: %d\n", theParList->nghost);
     printf("Ncons: %d\n", theParList->nc);
@@ -98,6 +103,7 @@ void print_pars(struct parList *theParList)
     printf("Xmin: %g\n", theParList->xmin);
     printf("Xmax: %g\n", theParList->xmax);
     printf("PLM: %g\n", theParList->plm);
+    printf("CFL: %g\n", theParList->cfl);
     printf("GammaLaw: %g\n", theParList->gammalaw);
     printf("Init: %d\n", theParList->init);
     printf("InitPar1: %g\n", theParList->initPar1);

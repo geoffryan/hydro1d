@@ -17,23 +17,27 @@ def plot_dat(ax, x, dat, fmt, xlabel=None, ylabel=None, xlim=None, ylim=None,
     if ylim is not None:
         ax.set_ylim(ylim)
 
-def plot_grid(filename):
+def plot_grid(filename, show=False):
 
     ver, t, xf, x, rho, P, v = rg.readGrid(filename)
 
     fig = plt.figure()
 
-    ax = fig.add_subplot(2,2,1)
-    plot_dat(ax, x, rho, 'k+', xlabel=r"$x$", ylabel=r"$\rho$")
-    ax = fig.add_subplot(2,2,2)
-    plot_dat(ax, x, v, 'k+', xlabel=r"$x$", ylabel=r"$v_x$")
-    ax = fig.add_subplot(2,2,3)
-    plot_dat(ax, x, P, 'k+', xlabel=r"$x$", ylabel=r"$P$")
+    xlim = (xf[0], xf[-1])
 
-    plt.suptitle(r"$t = {0}$".format(t))
+    ax = fig.add_subplot(2,2,1)
+    plot_dat(ax, x, rho, 'k+', xlabel=r"$x$", ylabel=r"$\rho$", xlim=xlim)
+    ax = fig.add_subplot(2,2,2)
+    plot_dat(ax, x, v, 'k+', xlabel=r"$x$", ylabel=r"$v_x$", xlim=xlim)
+    ax = fig.add_subplot(2,2,3)
+    plot_dat(ax, x, P, 'k+', xlabel=r"$x$", ylabel=r"$P$", xlim=xlim)
+
+    plt.suptitle(r"$t = {0:.3g}$".format(t))
 
     name = ".".join(filename.split(".")[:-1])
     fig.savefig(name+".png")
+    if show:
+        plt.show()
     plt.close()
 
 if __name__== "__main__":
@@ -42,6 +46,11 @@ if __name__== "__main__":
         print("I need some files to nom.\n")
         sys.exit()
 
-    for filename in sys.argv[1:]:
-        print("Plotting {0:s}".format(filename))
-        plot_grid(filename)
+    if len(sys.argv) == 2:
+        print("Plotting {0:s}".format(sys.argv[1]))
+        plot_grid(sys.argv[1], show=True)
+
+    else:
+        for filename in sys.argv[1:]:
+            print("Plotting {0:s}".format(filename))
+            plot_grid(filename, show=False)
