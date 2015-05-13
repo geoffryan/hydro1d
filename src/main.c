@@ -3,6 +3,7 @@
 #include "grid.h"
 #include "par.h"
 #include "boundary.h"
+#include "hydro.h"
 #include "initial.h"
 #include "riemann.h"
 #include "timestep.h"
@@ -31,6 +32,7 @@ int main(int argc, char *argv[])
     err += set_riemann_solver(&pars);
     err += set_timestep(&pars);
     err += set_bc(&pars);
+    err += set_hydro(&pars);
 
     if(err)
     {

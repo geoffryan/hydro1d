@@ -1,6 +1,6 @@
 #Parameter File for HYDRO1D
 
-Hydro       7    // 0 Newtonian
+Hydro       0    // 0 Newtonian
 EOS         7    // 0 Ideal Gamma-law gas.
 Cool        7    // 0 No Cooling
 Recon       1    // 0 PCM, 1 PLM
