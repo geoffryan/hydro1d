@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "grid.h"
 #include "par.h"
+#include "geom.h"
 #include "boundary.h"
 #include "hydro.h"
 #include "riemann.h"
@@ -52,8 +53,8 @@ void add_fluxes(struct grid *g, int a, int b, int nq, double dt,
         double xLL = g->x[i-1]; 
         double x = g->x[i]; 
         double xRR = g->x[i+1];
-        double xL = 0.5*(xLL+x);
-        double xR = 0.5*(x+xRR);
+        double xL = CM(xLL,x);
+        double xR = CM(x,xRR);
         double primL[nq], primR[nq], F[nq];
         for(q=0; q<nq; q++)
         {
@@ -61,7 +62,7 @@ void add_fluxes(struct grid *g, int a, int b, int nq, double dt,
             primR[q] = g->prim[  i  *nq+q] + g->grad[  i  *nq+q] * (x-xR);
         }
         riemann_flux(primL, primR, F, nq, x, dt, pars);
-        double dA = 1.0;
+        double dA = DA(x);
         for(q=0; q<nq; q++)
         {
             g->cons[(i-1)*nq+q] -= F[q] * dA * dt;
@@ -79,8 +80,8 @@ void add_sources(struct grid *g, int a, int b, int nq, double dt,
     {
         double xm = g->x[i];
         double xp = g->x[i+1];
-        double x = 0.5*(xm+xp);
-        double dV = xp-xm;
+        double x = CM(xm,xp);
+        double dV = DV(xm,xp);
 
         add_source(&(g->prim[nq*i]), &(g->cons[nq*i]), x, dV*dt, pars);
     }

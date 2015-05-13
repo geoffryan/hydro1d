@@ -9,7 +9,7 @@ Timestep    0    // 0 Forward-Euler, 1 RK2
 BCInner     0    // 0 Fixed, 1 Outflow
 BCOuter     0    // 0 Fixed, 1 Outflow
 
-Nx          512   // Number of zones
+Nx          256  // Number of zones
 Nghost      2    // Number of ghost zones
 Ncons       3    // Number of conserved quantities
 Npass       0    // Number of passive quantities
@@ -23,7 +23,7 @@ PLM         1.5
 CFL         0.5
 GammaLaw    1.4
 
-Init        0
+Init        1
 InitPar1    0.5   // Initial Shock Position
 InitPar2    10.0  // Rho L
 InitPar3    100.0 // P L

@@ -1,5 +1,8 @@
 # Generic Makefile, courtesy of Brian Farris 2013
 
+MAKEFILE_IN = $(PWD)/Makefile.in
+include $(MAKEFILE_IN)
+
 APP      = hydro1d
 
 SRCEXT   = c
@@ -13,12 +16,10 @@ OBJS    := $(patsubst %.$(SRCEXT),$(OBJDIR)/%.o,$(SRCS))
 
 GIT_VERSION = $(shell git describe --dirty --always --tags)
 
+#Vital flags 
 DEBUG    = -g
-INCLUDES = 
-CFLAGS   = -O3 -Wall -c $(DEBUG) $(INCLUDES) -DVERSION=\"$(GIT_VERSION)\"
+CFLAGS   += -O3 -Wall -c $(DEBUG) -DVERSION=\"$(GIT_VERSION)\" -DGEOM=$(GEOMETRY)
 LDFLAGS  = -lm
-
-CC       = gcc
 
 .PHONY: all clean distclean
 

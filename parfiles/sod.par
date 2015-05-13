@@ -11,7 +11,7 @@ BCOuter     0    // 0 Fixed, 1 Outflow
 
 Nx          128   // Number of zones
 Nghost      2    // Number of ghost zones
-Ncons       3    // Number of conserved quantities
+Ncons       4    // Number of conserved quantities
 Npass       0    // Number of passive quantities
 
 Tmin        0.0
@@ -23,7 +23,7 @@ PLM         1.5
 CFL         0.5
 GammaLaw    1.4
 
-Init        0
+Init        1
 InitPar1    0.5   // Initial Shock Position
 InitPar2    1.0   // Rho L
 InitPar3    1.0   // P L

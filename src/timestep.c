@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "grid.h"
+#include "geom.h"
 #include "hydro.h"
 #include "par.h"
 #include "timestep.h"
@@ -35,7 +36,7 @@ double get_dt(struct grid *g, struct parList *pars)
     {
         double xp = g->x[i+1];
         double xm = g->x[i];
-        double x = 0.5*(xm+xp);
+        double x = CM(xm,xp);
         double dx = xp-xm;
 
         double dt = mindt(&(g->prim[i*nq]), x, dx, pars);
@@ -69,8 +70,8 @@ void calc_cons(struct grid *g, struct parList *pars)
     {
         double xm = g->x[i];
         double xp = g->x[i+1];
-        double x = 0.5*(xm+xp);
-        double dV = xp-xm;
+        double x = CM(xm,xp);
+        double dV = DV(xm,xp);
 
         prim2cons(&(g->prim[nq*i]), &(g->cons[nq*i]), x, dV, pars);
     }
@@ -86,8 +87,8 @@ void calc_prim(struct grid *g, struct parList *pars)
     {
         double xm = g->x[i];
         double xp = g->x[i+1];
-        double x = 0.5*(xm+xp);
-        double dV = xp-xm;
+        double x = CM(xm,xp);
+        double dV = DV(xm,xp);
 
         cons2prim(&(g->cons[nq*i]), &(g->prim[nq*i]), x, dV, pars);
     }

@@ -53,9 +53,7 @@ void add_source_newt_cyl(double *prim, double *cons, double r, double dVdt,
 {
     double rho = prim[RHO];
     double P = prim[PPP];
-    double vr = prim[VX1];
     double vp = prim[VX2];
-    double gam = pars->gammalaw;
 
     cons[SX1] += (P/r + rho*r*vp*vp) * dVdt;
 }

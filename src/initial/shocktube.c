@@ -1,10 +1,8 @@
 #include <stdlib.h>
 #include "../par.h"
 #include "../grid.h"
+#include "../hydro.h"
 #include "../initial.h"
-
-//TODO: THESE GO IN ONE PLACE.
-enum{RHO,PPP,VXX};
 
 void initial_shocktube(double *prim, double x, struct parList *pars)
 {
@@ -21,13 +19,15 @@ void initial_shocktube(double *prim, double x, struct parList *pars)
     {
         prim[RHO] = rhoL;
         prim[PPP] = PL;
-        prim[VXX] = vL;
+        prim[VX1] = vL;
+        prim[VX2] = 0.0;
     }
     else
     {
         prim[RHO] = rhoR;
         prim[PPP] = PR;
-        prim[VXX] = vR;
+        prim[VX1] = vR;
+        prim[VX2] = 0.0;
     }
 
     if(pars->np > 0)
