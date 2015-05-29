@@ -8,3 +8,4 @@ out*
 *.png
 *.pyc
 bin/
+Makefile.in

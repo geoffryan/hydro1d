@@ -1,0 +1,6 @@
+# Machine and build specific options for Hydro1D.
+
+CC = gcc
+GEOMETRY = 0
+CFLAGS = 
+
