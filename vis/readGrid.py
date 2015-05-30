@@ -26,6 +26,7 @@ def readGridASCII(filename):
     x = 0.5*(xf[:-1]+xf[1:])
     f.close()
 
-    rho, P, v = np.loadtxt(filename, unpack=True, usecols=[1,2,3], skiprows=3)
+    rho, P, v1, v2 = np.loadtxt(filename, unpack=True, usecols=[1,2,3,4],
+                                skiprows=3)
 
-    return version, t, xf, x, rho, P, v
+    return version, t, xf, x, rho, P, v1, v2

@@ -51,42 +51,6 @@ void make_grid(struct grid *g, struct parList *pars)
         g->x[i] = g->xmin + (i - g->ng) * dx;
 }
 
-void print_grid(struct grid *g, char *filename)
-{
-    FILE *f;
-    if(filename == NULL)
-        f = stdout;
-    else
-        f = fopen(filename, "w");
-
-    int i,q;
-
-    int NQ = g->nq;
-
-    fprintf(f, "%s\n", VERSION);
-
-    fprintf(f, "t %.12g\n", g->t);    
-    fprintf(f, "x");
-    for(i=0; i<g->nx+1; i++)
-        fprintf(f, " %.12g", g->x[i]);
-    fprintf(f, "\n");
-
-    for(i=0; i<g->nx; i++)
-    {
-        fprintf(f, "%d", i);
-        for(q=0; q<NQ; q++)
-            fprintf(f, " %.12g", g->prim[NQ*i+q]);
-        for(q=0; q<NQ; q++)
-            fprintf(f, " %.12g", g->cons[NQ*i+q]);
-        for(q=0; q<NQ; q++)
-            fprintf(f, " %.12g", g->grad[NQ*i+q]);
-        fprintf(f, "\n");
-    }
-
-    if(filename != NULL)
-        fclose(f);
-}
-
 void free_grid(struct grid *g)
 {
     free(g->x);

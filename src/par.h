@@ -25,6 +25,8 @@ struct parList
     double cfl;
     double gammalaw;
 
+    int nChkpt;
+
     int init;
     double initPar1;
     double initPar2;
@@ -56,6 +58,8 @@ const static struct parList PAR_DEFAULT = {
     .plm = 1.5,
     .cfl = 0.5,
     .gammalaw = 1.4,
+
+    .nChkpt = 0,
 
     .init = 0,
     .initPar1 = 0.0,

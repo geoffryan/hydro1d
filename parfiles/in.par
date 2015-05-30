@@ -20,6 +20,8 @@ Tmax        10.0
 Xmin        1.0
 Xmax        2.0
 
+NumCheckpoints 100
+
 PLM         2.0
 CFL         0.5
 GammaLaw    1.6666666667

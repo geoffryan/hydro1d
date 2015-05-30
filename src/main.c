@@ -5,6 +5,7 @@
 #include "boundary.h"
 #include "hydro.h"
 #include "initial.h"
+#include "io.h"
 #include "riemann.h"
 #include "timestep.h"
 
@@ -23,9 +24,12 @@ int main(int argc, char *argv[])
     int err = 0;
     struct parList pars = PAR_DEFAULT;
     struct grid grid = GRID_DEFAULT;
+    struct io io = IO_DEFAULT;
 
     read_pars(&pars, argv[1]);
     print_pars(&pars);
+
+    io_init(&io, &pars);
 
     err += set_initial(&pars);
     err += set_reconstruction(&pars);
@@ -44,9 +48,7 @@ int main(int argc, char *argv[])
     initialize_grid(&grid, &pars);
     calc_cons(&grid, &pars);
 
-    char filename[128];
-    sprintf(filename, "grid_%04d.txt", 0);
-    print_grid(&grid, filename);
+    io_out(&io, &grid);
 
     int i = 1;
     while(grid.t < pars.tmax)
@@ -57,9 +59,9 @@ int main(int argc, char *argv[])
         printf("t: %.6e dt: %.6e\n", grid.t, dt);
 
         step_fe(&grid, dt, &pars);
+            
+        io_out(&io, &grid);
 
-        sprintf(filename, "grid_%04d.txt", i);
-        print_grid(&grid, filename);
         i++;
     }
 
@@ -71,7 +73,7 @@ int main(int argc, char *argv[])
 void getTheHellOuttaHere(struct grid *g)
 {
     printf("Aborting...\n");
-    print_grid(g, "abort_dump.txt");
+    io_print_grid_ascii(g, "abort_dump.txt");
     free_grid(g);
     exit(0);
 }

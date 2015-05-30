@@ -72,6 +72,7 @@ void read_pars(struct parList *theParList, char filename[])
     readvar(filename, "PLM",     VAR_DBL, &(theParList->plm));
     readvar(filename, "CFL",     VAR_DBL, &(theParList->cfl));
     readvar(filename, "GammaLaw",     VAR_DBL, &(theParList->gammalaw));
+    readvar(filename, "NumCheckpoints",     VAR_INT, &(theParList->nChkpt));
     readvar(filename, "Init",         VAR_INT, &(theParList->init));
     readvar(filename, "InitPar1",     VAR_DBL, &(theParList->initPar1));
     readvar(filename, "InitPar2",     VAR_DBL, &(theParList->initPar2));
@@ -105,6 +106,7 @@ void print_pars(struct parList *theParList)
     printf("PLM: %g\n", theParList->plm);
     printf("CFL: %g\n", theParList->cfl);
     printf("GammaLaw: %g\n", theParList->gammalaw);
+    printf("NumCheckpoints: %d\n", theParList->nChkpt);
     printf("Init: %d\n", theParList->init);
     printf("InitPar1: %g\n", theParList->initPar1);
     printf("InitPar2: %g\n", theParList->initPar2);

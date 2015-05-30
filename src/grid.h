@@ -42,7 +42,6 @@ void (*reconstruction)(struct grid *);
 
 int set_reconstruction(struct parList *pars);
 void make_grid(struct grid *g, struct parList *pars);
-void print_grid(struct grid *g, char *filename);
 void free_grid(struct grid *g);
 
 void interpolate_constant(struct grid *g);

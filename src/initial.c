@@ -17,6 +17,10 @@ int set_initial(struct parList *pars)
     {
         initial_value = &initial_shocktube;
     }
+    else if(choice == 2)
+    {
+        initial_value = &initial_isentrope;
+    }
     else
     {
         printf("ERROR - Invalid Initial Condition choice: %d\n", pars->init);

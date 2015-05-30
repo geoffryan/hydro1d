@@ -1,6 +1,6 @@
 #Parameter File for HYDRO1D
 
-Hydro       0    // 0 NewtonianCartesian, 1 NewtonianCylindrical
+Hydro       2    // 0 NewtonianCartesian, 1 NewtonianCylindrical
 EOS         7    // 0 Ideal Gamma-law gas.
 Cool        7    // 0 No Cooling
 Recon       1    // 0 PCM, 1 PLM
@@ -15,9 +15,11 @@ Ncons       4    // Number of conserved quantities
 Npass       0    // Number of passive quantities
 
 Tmin        0.0
-Tmax        10.0
+Tmax        10000.0
 Xmin        1.0
 Xmax        2.0
+
+NumCheckpoints 100
 
 PLM         1.5
 CFL         0.5
