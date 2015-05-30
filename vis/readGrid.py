@@ -6,8 +6,8 @@ def readGrid(filename):
     if ext == "txt":
         return readGridASCII(filename)
     else:
-        print("Unknown extension: {0:s}".format(ext))
-        sys.exit()
+        print("Unknown extension: {0:s}\nTrying ASCII...".format(ext))
+        return readGridASCII(filename)
 
 def readGridASCII(filename):
 

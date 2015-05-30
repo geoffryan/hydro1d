@@ -46,5 +46,8 @@ void free_grid(struct grid *g);
 
 void interpolate_constant(struct grid *g);
 void interpolate_plm(struct grid *g);
+void copy_to_rk(struct grid *g);
+void update_rk(struct grid *g, double fac1, double fac2);
+void update_cons(struct grid *g, double fac1, double fac2);
 
 #endif

@@ -9,3 +9,4 @@ out*
 *.pyc
 bin/
 Makefile.in
+data/

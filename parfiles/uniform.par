@@ -23,7 +23,7 @@ NumCheckpoints 100
 
 PLM         1.5
 CFL         0.5
-GammaLaw    1.4
+GammaLaw    1.666666666
 
 Init        0
 InitPar1    1.0   // Rho

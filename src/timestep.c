@@ -14,7 +14,9 @@ int set_timestep(struct parList *pars)
     if(choice == 0)
         timestep = &step_fe;
     else if(choice == 1)
-        timestep = &step_rk2;
+        timestep = &step_rk2_mp;
+    else if(choice == 2)
+        timestep = &step_rk2_tvd;
     else
     {
         printf("ERROR - Invalid Timestep choice: %d\n", choice);
@@ -53,10 +55,28 @@ void step_fe(struct grid *g, double dt, struct parList *pars)
     g->t += dt;
 }
 
-//TODO: Implement this.
-void step_rk2(struct grid *g, double dt, struct parList *pars)
+void step_rk2_mp(struct grid *g, double dt, struct parList *pars)
 {
+    // The Midpoint RK2 Method.
+
+    copy_to_rk(g);
+    substep(g, 0.5*dt, pars);
+    g->t += 0.5*dt;
+
+    update_cons(g, 0.0, 1.0);
     substep(g, dt, pars);
+    g->t += 0.5*dt;
+}
+
+void step_rk2_tvd(struct grid *g, double dt, struct parList *pars)
+{
+    // The TVD RK2 Method by Gottlied & Shu
+
+    copy_to_rk(g);
+    substep(g, dt, pars);
+
+    update_cons(g, 0.5, 0.5);
+    substep(g, 0.5*dt, pars);
     g->t += dt;
 }
 

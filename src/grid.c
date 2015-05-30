@@ -101,10 +101,46 @@ void interpolate_plm(struct grid *g)
     }
     for(j=0; j<nq; j++)
     {
-        double dR = 2*(g->prim[(nx-1)*nq+j] - g->prim[(nx-2)*nq+j])
+        double dL = 2*(g->prim[(nx-1)*nq+j] - g->prim[(nx-2)*nq+j])
                         / (g->x[nx]-g->x[nx-2]);
-        g->grad[j] = dR;
+        g->grad[j] = dL;
     }
+}
+
+void copy_to_rk(struct grid *g)
+{
+    // Copy cons into cons_rk.
+
+    int i;
+    int nx = g->nx;
+    int nq = g->nq;
+
+    for(i=0; i<nx*nq; i++)
+        g->cons_rk[i] = g->cons[i];
+}
+
+void update_rk(struct grid *g, double fac1, double fac2)
+{
+    // Update cons_rk with fac1*cons & fac2*cons_rk
+
+    int i;
+    int nx = g->nx;
+    int nq = g->nq;
+
+    for(i=0; i<nx*nq; i++)
+        g->cons_rk[i] = fac1 * g->cons[i] + fac2 * g->cons_rk[i];
+}
+
+void update_cons(struct grid *g, double fac1, double fac2)
+{
+    // Update cons with fac*cons & (1-fac)*cons_rk
+    
+    int i;
+    int nx = g->nx;
+    int nq = g->nq;
+
+    for(i=0; i<nx*nq; i++)
+        g->cons[i] = fac1 * g->cons[i] + fac2 * g->cons_rk[i];
 }
 
 //Local definitions
@@ -120,7 +156,7 @@ double minmod(double a, double b, double c)
     else
         m = b;
 
-    if(b*c < 0)
+    if(m*c < 0)
         m = 0;
     else if(fabs(c) < fabs(m))
         m = c;
