@@ -17,6 +17,8 @@ int set_timestep(struct parList *pars)
         timestep = &step_rk2_mp;
     else if(choice == 2)
         timestep = &step_rk2_tvd;
+    else if(choice == 3)
+        timestep = &step_rk3_tvd;
     else
     {
         printf("ERROR - Invalid Timestep choice: %d\n", choice);
@@ -77,6 +79,22 @@ void step_rk2_tvd(struct grid *g, double dt, struct parList *pars)
 
     update_cons(g, 0.5, 0.5);
     substep(g, 0.5*dt, pars);
+    g->t += dt;
+}
+
+void step_rk3_tvd(struct grid *g, double dt, struct parList *pars)
+{
+    // The TVD RK3 Method by Shu & Osher
+
+    copy_to_rk(g);
+    substep(g, dt, pars);
+
+    update_cons(g, 0.25, 0.75);
+    substep(g, 0.25*dt, pars);
+
+    update_cons(g, 2.0/3.0, 1.0/3.0);
+    substep(g, 2.0/3.0*dt, pars);
+
     g->t += dt;
 }
 

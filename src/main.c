@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 
         printf("t: %.6e dt: %.6e\n", grid.t, dt);
 
-        step_fe(&grid, dt, &pars);
+        timestep(&grid, dt, &pars);
             
         io_out(&io, &grid);
 

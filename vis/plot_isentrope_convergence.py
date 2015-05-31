@@ -41,7 +41,7 @@ def isentropeDirect(t, x0):
 
     return x, rho, P, v
 
-def isentrope(t, x, err=1.0e-6):
+def isentrope(t, x, err=1.0e-10):
     
     csMax = math.sqrt(GAM * K * math.pow(rhoRef*(1.0+a), GAM-1.0))
     xb = x.copy()
@@ -51,8 +51,6 @@ def isentrope(t, x, err=1.0e-6):
     dx = xb-xa
 
     i = 0
-
-    inds = np.array([6,7,8,9,10])
 
     while np.abs(dx/x0).mean() > err:
         rho0, P0, v0 = profile(x0)
@@ -119,16 +117,23 @@ def plot_convergence(filenames):
         errs.append(err)
         ts.append(t)
 
-        ax1.plot(x, dat[0], marker='x', linestyle=' ', color=cols[i])
+        ax1.plot(x, dat[0], marker='x', linestyle=' ', color=cols[i%10])
         #ax1.plot(x, exact[0], marker='o', linestyle=' ', color=cols[i])
-        ax1.plot(xe, rhoe, marker='', linestyle='-', color=lcols[i])
-        ax2.plot(x, dat[1], marker='x', linestyle=' ', color=cols[i])
+        ax1.plot(xe, rhoe, marker='', linestyle='-', color=lcols[i%10])
+        ax2.plot(x, dat[1], marker='x', linestyle=' ', color=cols[i%10])
         #ax2.plot(x, exact[1], marker='o', linestyle=' ', color=cols[i])
-        ax2.plot(xe, Pe, marker='', linestyle='-', color=lcols[i])
-        ax3.plot(x, dat[2], marker='x', linestyle=' ', color=cols[i])
+        ax2.plot(xe, Pe, marker='', linestyle='-', color=lcols[i%10])
+        ax3.plot(x, dat[2], marker='x', linestyle=' ', color=cols[i%10])
         #ax3.plot(x, exact[2], marker='o', linestyle=' ', color=cols[i])
-        ax3.plot(xe, ve, marker='', linestyle='-', color=lcols[i])
+        ax3.plot(xe, ve, marker='', linestyle='-', color=lcols[i%10])
 
+    p = np.polyfit(np.log(Ns), np.log(errs), 1)
+    print("Convergence Order: {0:.2f}".format(-p[0]))
+
+    NNs = np.logspace(np.log10(Ns).min(),np.log10(Ns).max(),base=10.0,num=100)
+
+    ax4.plot(NNs, math.exp(p[1]) * np.power(NNs, p[0]), ls='-', lw=2, 
+                color=lcols[0])
     ax4.plot(Ns, errs, 'kx')
 
     ax1.set_xlabel(r'$x$')

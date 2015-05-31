@@ -6,11 +6,11 @@ EOS         7    // 0 Ideal Gamma-law gas.
 Cool        7    // 0 No Cooling
 Recon       0    // 0 PCM, 1 PLM
 Riemann     1    // 0 Lax-Friedrichs, 1 HLL
-Timestep    0    // 0 Forward-Euler, 1 RK2-MP, 2 RK2-TVD
+Timestep    0    // 0 Forward-Euler, 1 RK2-MP, 2 RK2-TVD, 3 RK3-TVD
 BCInner     0    // 0 Fixed, 1 Outflow
 BCOuter     0    // 0 Fixed, 1 Outflow
 
-Nx          32  // Number of zones
+Nx          512  // Number of zones
 Nghost      2    // Number of ghost zones
 Ncons       4    // Number of conserved quantities
 Npass       0    // Number of passive quantities
