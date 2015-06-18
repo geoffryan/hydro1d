@@ -13,8 +13,8 @@ void prim2cons_rel_cart(double *prim, double *cons, double x, double dV,
     double uy = prim[VX2];
     double gam = pars->gammalaw;
 
-    u2 = ux*ux + uy*uy
-    double u0 = math.sqrt(1.0 + u2);
+    double u2 = ux*ux + uy*uy;
+    double u0 = sqrt(1.0 + u2);
     double rhoh = rho + gam/(gam-1.0)*P;
 
     cons[DDD] = rho * u0 * dV;
@@ -33,12 +33,12 @@ void cons2prim_rel_cart(double *cons, double *prim, double x, double dV,
     double Sy = cons[SX2] / dV;
     double gam = pars->gammalaw;
 
-    double S2 = Sx*Sx + Sy*Sy;
+    double s2 = (Sx*Sx + Sy*Sy)/(D*D);
     double e = tau/D + 1.0;
 
     double c0 = e*e - s2;
-    double c1 = (gam-1.0)*(gam-1.0)/(gam*gam) - 2*S2/gam + e*e;
-    double c2 = -S2/(gam*gam);
+    double c1 = (gam-1.0)*(gam-1.0)/(gam*gam) - 2*s2/gam + e*e;
+    double c2 = -s2/(gam*gam);
     double c3 = -2*e*(gam-1.0)/gam;
 
     double u2 = prim[VX1]*prim[VX1] + prim[VX2]*prim[VX2];
