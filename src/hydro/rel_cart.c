@@ -4,7 +4,7 @@
 #include "../par.h"
 #include "../hydro.h"
 
-void prim2cons_newt_cart(double *prim, double *cons, double x, double dV,
+void prim2cons_rel_cart(double *prim, double *cons, double x, double dV,
                             struct parList *pars)
 {
     double rho = prim[RHO];
@@ -23,7 +23,7 @@ void prim2cons_newt_cart(double *prim, double *cons, double x, double dV,
     cons[SX2] = rhoh * u0 * uy * dV;
 }
 
-void cons2prim_newt_cart(double *cons, double *prim, double x, double dV,
+void cons2prim_rel_cart(double *cons, double *prim, double x, double dV,
                             struct parList *pars)
 {
     double ERR = 1.0e-3;
@@ -71,7 +71,7 @@ void cons2prim_newt_cart(double *cons, double *prim, double x, double dV,
     prim[VX2] = uy;
 }
 
-void flux_newt_cart(double *prim, double *F, double x, struct parList *pars)
+void flux_rel_cart(double *prim, double *F, double x, struct parList *pars)
 {
     double rho = prim[RHO];
     double P = prim[PPP];
@@ -85,12 +85,12 @@ void flux_newt_cart(double *prim, double *F, double x, struct parList *pars)
     F[SX2] = rho*vy*vx;
 }
 
-void add_source_newt_cart(double *prim, double *cons, double x, double dVdt, 
+void add_source_rel_cart(double *prim, double *cons, double x, double dVdt, 
                 struct parList *pars)
 {
 }
 
-void wave_speeds_newt_cart(double *prim1, double *prim2, double *sL, double *sR,
+void wave_speeds_rel_cart(double *prim1, double *prim2, double *sL, double *sR,
                     double *sC, double x, struct parList *pars)
 {
     double rho1 = prim1[RHO];
@@ -116,7 +116,7 @@ void wave_speeds_newt_cart(double *prim1, double *prim2, double *sL, double *sR,
     *sC = 0.0;
 }
 
-double mindt_newt_cart(double *prim, double x, double dx, struct parList *pars)
+double mindt_rel_cart(double *prim, double x, double dx, struct parList *pars)
 {
     double rho = prim[RHO];
     double P = prim[PPP];
