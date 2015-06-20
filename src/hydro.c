@@ -35,6 +35,15 @@ int set_hydro(struct parList *pars)
         wave_speeds = &wave_speeds_newt_sph;
         mindt = &mindt_newt_sph;
     }
+    else if(choice == 3)
+    {
+        prim2cons = &prim2cons_rel_cart;
+        cons2prim = &cons2prim_rel_cart;
+        flux = &flux_rel_cart;
+        add_source = &add_source_rel_cart;
+        wave_speeds = &wave_speeds_rel_cart;
+        mindt = &mindt_rel_cart;
+    }
     else
     {
         err = 1;

@@ -18,7 +18,7 @@ void prim2cons_rel_cart(double *prim, double *cons, double x, double dV,
     double rhoh = rho + gam/(gam-1.0)*P;
 
     cons[DDD] = rho * u0 * dV;
-    cons[TAU] = (rho * u0*u2/(1+u0) + P * (u0*u0/(gam-1.0)+u2)) * dV;
+    cons[TAU] = (rho * u0*u2/(1.0+u0) + P * (u0*u0/(gam-1.0)+u2)) * dV;
     cons[SX1] = rhoh * u0 * ux * dV;
     cons[SX2] = rhoh * u0 * uy * dV;
 }
@@ -75,14 +75,17 @@ void flux_rel_cart(double *prim, double *F, double x, struct parList *pars)
 {
     double rho = prim[RHO];
     double P = prim[PPP];
-    double vx = prim[VX1];
-    double vy = prim[VX2];
+    double ux = prim[VX1];
+    double uy = prim[VX2];
     double gam = pars->gammalaw;
 
-    F[DDD] = rho * vx;
-    F[TAU] = (0.5*rho*(vx*vx+vy*vy) + gam/(gam-1.0)*P) * vx;
-    F[SX1] = rho*vx*vx + P;
-    F[SX2] = rho*vy*vx;
+    double u0 = sqrt(1.0 + ux*ux + uy*uy);
+    double rhoh = rho + gam/(gam-1.0) * P;
+
+    F[DDD] = rho*ux;
+    F[TAU] = rhoh*u0*ux - rho*ux;
+    F[SX1] = rhoh*ux*ux + P;
+    F[SX2] = rhoh*uy*ux;
 }
 
 void add_source_rel_cart(double *prim, double *cons, double x, double dVdt, 
@@ -95,22 +98,41 @@ void wave_speeds_rel_cart(double *prim1, double *prim2, double *sL, double *sR,
 {
     double rho1 = prim1[RHO];
     double P1 = prim1[PPP];
-    double v1 = prim1[VX1];
+    double ux1 = prim1[VX1];
+    double uy1 = prim1[VX2];
     double rho2 = prim2[RHO];
     double P2 = prim2[PPP];
-    double v2 = prim2[VX1];
+    double ux2 = prim2[VX1];
+    double uy2 = prim2[VX2];
     double gam = pars->gammalaw;
 
-    double cs1 = sqrt(gam*P1/rho1);
-    double cs2 = sqrt(gam*P2/rho2);
+    double rhoh1 = rho1 + gam/(gam-1.0)*P1;
+    double rhoh2 = rho2 + gam/(gam-1.0)*P2;
 
-    *sL = v1 - cs1;
-    if(v2 - cs2 < *sL)
-        *sL = v2 - cs2;
+    double cs21 = gam*P1/rhoh1;
+    double cs22 = gam*P2/rhoh2;
 
-    *sR = v1 + cs1;
-    if(v2 + cs2 > *sR)
-        *sR = v2 + cs2;
+    double w1 = sqrt(1.0 + ux1*ux1 + uy1*uy1);
+    double w2 = sqrt(1.0 + ux2*ux2 + uy2*uy2);
+
+    double vx1 = ux1/w1;
+    double vy1 = uy1/w1;
+    double vx2 = ux2/w2;
+    double vy2 = uy2/w2;
+
+    double v21 = vx1*vx1 + vy1*vy1;
+    double v22 = vx2*vx2 + vy2*vy2;
+
+    double dv1 = sqrt(cs21 * (1.0 - (vx1*vx1 + vy1*vy1*cs21)) / (w1*w1));
+    double dv2 = sqrt(cs22 * (1.0 - (vx2*vx2 + vy2*vy2*cs22)) / (w2*w2));
+
+    double sL1 = (vx1*(1-cs21) - dv1) / (1.0 - v21*cs21);
+    double sL2 = (vx2*(1-cs22) - dv2) / (1.0 - v22*cs22);
+    double sR1 = (vx1*(1-cs21) + dv1) / (1.0 - v21*cs21);
+    double sR2 = (vx2*(1-cs22) + dv2) / (1.0 - v22*cs22);
+
+    *sL = sL1<sL2 ? sL1 : sL2;
+    *sR = sR1>sR2 ? sR1 : sR2;
 
     //TODO: Use proper HLLC wavespeed.
     *sC = 0.0;
@@ -120,11 +142,27 @@ double mindt_rel_cart(double *prim, double x, double dx, struct parList *pars)
 {
     double rho = prim[RHO];
     double P = prim[PPP];
-    double v = prim[VX1];
+    double ux = prim[VX1];
+    double uy = prim[VX2];
     double gam = pars->gammalaw;
 
-    double cs = sqrt(gam*P/rho);
-    double dt = dx/(cs + fabs(v));
+    double rhoh = rho + gam/(gam-1.0)*P;
+    double cs2 = gam*P/rhoh;
+
+    double w = sqrt(1.0 + ux*ux + uy*uy);
+    double vx = ux/w;
+    double vy = uy/w;
+    double v2=  vx*vx + vy*vy;
+
+    double dv = sqrt(cs2 * (1.0 - (vx*vx + vy*vy*cs2)) / (w*w));
+
+    double s;
+    if(vx > 0)
+        s = (vx*(1-cs2) + dv) / (1.0 - v2*cs2);
+    else
+        s = (vx*(1-cs2) - dv) / (1.0 - v2*cs2);
+
+    double dt = dx / fabs(s);
 
     return dt;
 }

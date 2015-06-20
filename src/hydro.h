@@ -56,4 +56,17 @@ void wave_speeds_newt_sph(double *prim1, double *prim2, double *sL,
 double mindt_newt_sph(double *prim, double x, double dx, 
                         struct parList *pars);
 
+void prim2cons_rel_cart(double *prim, double *cons, double x, double dV,
+                            struct parList *pars);
+void cons2prim_rel_cart(double *cons, double *prim, double x, double dV,
+                            struct parList *pars);
+void flux_rel_cart(double *prim, double *F, double x, struct parList *pars);
+void add_source_rel_cart(double *prim, double *cons, double x, double dVdt, 
+                            struct parList *pars);
+void wave_speeds_rel_cart(double *prim1, double *prim2, double *sL, 
+                            double *sR, double *sC, double x, 
+                            struct parList *pars);
+double mindt_rel_cart(double *prim, double x, double dx, 
+                        struct parList *pars);
+
 #endif
