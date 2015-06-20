@@ -26,7 +26,7 @@ void prim2cons_rel_cart(double *prim, double *cons, double x, double dV,
 void cons2prim_rel_cart(double *cons, double *prim, double x, double dV,
                             struct parList *pars)
 {
-    double ERR = 1.0e-3;
+    double ERR = 1.0e-12;
     double D = cons[DDD] / dV;
     double tau = cons[TAU] / dV;
     double Sx = cons[SX1] / dV;
@@ -44,6 +44,7 @@ void cons2prim_rel_cart(double *cons, double *prim, double x, double dV,
     double u2 = prim[VX1]*prim[VX1] + prim[VX2]*prim[VX2];
     double du2;
 
+    int i = 0;
     do
     {
         double f = c0*u2*u2 + c1*u2 + c2 + c3*u2*sqrt(1.0+u2);
@@ -52,8 +53,11 @@ void cons2prim_rel_cart(double *cons, double *prim, double x, double dV,
         if(f == 0.0)
             break;
 
-        du2 = -df/f;
+        du2 = -f/df;
         u2 += du2;
+
+        printf("%d %.6g %.6g %.6g %.6g\n", i, u2, f, df, du2);
+        i++;
     }
     while(fabs(du2) > ERR);
 
