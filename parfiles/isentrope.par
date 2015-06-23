@@ -4,23 +4,23 @@ Hydro       0    // 0 NewtonianCartesian, 1 NewtonianCylindrical,
                  // 2 NewtonianSpherical, 
 EOS         7    // 0 Ideal Gamma-law gas.
 Cool        7    // 0 No Cooling
-Recon       0    // 0 PCM, 1 PLM
+Recon       1    // 0 PCM, 1 PLM
 Riemann     1    // 0 Lax-Friedrichs, 1 HLL
-Timestep    0    // 0 Forward-Euler, 1 RK2-MP, 2 RK2-TVD, 3 RK3-TVD
+Timestep    3    // 0 Forward-Euler, 1 RK2-MP, 2 RK2-TVD, 3 RK3-TVD
 BCInner     0    // 0 Fixed, 1 Outflow
 BCOuter     0    // 0 Fixed, 1 Outflow
 
-Nx          512  // Number of zones
+Nx          128  // Number of zones
 Nghost      2    // Number of ghost zones
 Ncons       4    // Number of conserved quantities
 Npass       0    // Number of passive quantities
 
 Tmin        0.0
 Tmax        0.1
-Xmin        1.0
-Xmax        2.5
+Xmin        0.0
+Xmax        2.0
 
-NumCheckpoints 100
+NumCheckpoints 10
 
 PLM         1.0
 CFL         0.5
@@ -29,10 +29,10 @@ GammaLaw    1.666666666
 Init        2
 InitPar1    1.0   // rho0
 InitPar2    1.0   // P0
-InitPar3    1.5   // x0
+InitPar3    1.0   // x0
 InitPar4    0.4   // L
 InitPar5    1.0   // a
-InitPar6    0.0   // 
+InitPar6    -1.0   // direction
 InitPar7    0.0   // 
 InitPar8    0.0
 

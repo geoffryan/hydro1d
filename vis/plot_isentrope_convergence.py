@@ -13,14 +13,17 @@ GAM = 5.0/3.0
 
 K = PRef / math.pow(rhoRef, GAM)
 
-def profile(x):
+def profile(x, dir=1.0):
 
     rho = rhoRef * np.ones(x.shape)
 
     dx = np.fabs((x-xRef)/L)
     csRef = math.sqrt(GAM * PRef / rhoRef)
     
-    J = -2.0 * csRef / (GAM-1.0)
+    if dir >= 0:
+        J = -2.0 * csRef / (GAM-1.0)
+    else:
+        J =  2.0 * csRef / (GAM-1.0)
 
     inds = (dx <= 1.0)
 
@@ -29,23 +32,33 @@ def profile(x):
     P = K * np.power(rho, GAM)
     cs = np.sqrt(GAM * P / rho)
 
-    v = J + 2.0 * cs / (GAM-1.0)
+    if dir >= 0.0:
+        v = J + 2.0 * cs / (GAM-1.0)
+    else:
+        v = J - 2.0 * cs / (GAM-1.0)
 
     return rho, P, v
 
-def isentropeDirect(t, x0):
+def isentropeDirect(t, x0, dir=1.0):
 
-    rho, P, v = profile(x0)
-    la = v + np.sqrt(GAM*P/rho)
+    rho, P, v = profile(x0, dir=dir)
+    if dir >= 0:
+        la = v + np.sqrt(GAM*P/rho)
+    else:
+        la = v - np.sqrt(GAM*P/rho)
     x = x0 + la*t
 
     return x, rho, P, v
 
-def isentrope(t, x, err=1.0e-10):
+def isentrope(t, x, err=1.0e-10, dir=1.0):
     
     csMax = math.sqrt(GAM * K * math.pow(rhoRef*(1.0+a), GAM-1.0))
-    xb = x.copy()
-    xa = x - 10*csMax * t
+    if dir >= 0:
+        xb = x.copy()
+        xa = x - 10*csMax * t
+    else:
+        xa = x.copy()
+        xb = x + 10*csMax * t
 
     x0 = 0.5*(xa+xb)
     dx = xb-xa
@@ -53,9 +66,12 @@ def isentrope(t, x, err=1.0e-10):
     i = 0
 
     while np.abs(dx/x0).mean() > err:
-        rho0, P0, v0 = profile(x0)
-        
-        la = v0 + np.sqrt(GAM*P0/rho0)
+        rho0, P0, v0 = profile(x0, dir=dir)
+
+        if dir >= 0:
+            la = v0 + np.sqrt(GAM*P0/rho0)
+        else:
+            la = v0 - np.sqrt(GAM*P0/rho0)
 
         errs = la*t - x + x0
         xa[errs<0.0] = x0[errs<0.0]
@@ -65,16 +81,16 @@ def isentrope(t, x, err=1.0e-10):
 
         i += 1
 
-    rho, P, v = profile(x0)
+    rho, P, v = profile(x0, dir=dir)
 
     return x0, rho, P, v
 
-def calc_err(filename):
+def calc_err(filename, dir=1.0):
 
     ver, t, xf, x, rho, P, v1, v2 = rg.readGrid(filename)
     dx = xf[1:] - xf[:-1]
 
-    x0, rho_exact, P_exact, v_exact = isentrope(t, x)
+    x0, rho_exact, P_exact, v_exact = isentrope(t, x, dir=dir)
 
     err = (np.abs(rho[2:-2]-rho_exact[2:-2])*dx[2:-2]).sum() \
             / (np.abs(rho_exact[2:-2])*dx[2:-2]).sum()
@@ -83,7 +99,7 @@ def calc_err(filename):
 
     return N, err, t, x, (rho,P,v1), (rho_exact,P_exact,v_exact)
 
-def plot_convergence(filenames):
+def plot_convergence(filenames, dir=1.0):
 
     fig = plt.figure()
 
@@ -110,9 +126,9 @@ def plot_convergence(filenames):
 
 
     for i,f in enumerate(filenames):
-        N, err, t, x, dat, exact = calc_err(f)
+        N, err, t, x, dat, exact = calc_err(f, dir=dir)
         x0 = np.linspace(x.min(), x.max(), 1000)
-        xe, rhoe, Pe, ve = isentropeDirect(t, x0)
+        xe, rhoe, Pe, ve = isentropeDirect(t, x0, dir=dir)
         Ns.append(N)
         errs.append(err)
         ts.append(t)
@@ -158,7 +174,7 @@ if __name__ == "__main__":
         print("I need some files to nom.\n")
         sys.exit()
 
-    plot_convergence(sys.argv[1:])
+    plot_convergence(sys.argv[1:], dir=-1.0)
 
     plt.show()
 

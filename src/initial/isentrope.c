@@ -15,6 +15,7 @@ void initial_isentrope(double *prim, double x, struct parList *pars)
     double x0 = pars->initPar3;   // Pulse location
     double L = pars->initPar4;    // Pulse width
     double a = pars->initPar5;    // Pulse strength
+    double f = pars->initPar6;    // Pulse Direction
 
     double rho, P, vx, dx, K, GAM, cs, J;
 
@@ -22,8 +23,9 @@ void initial_isentrope(double *prim, double x, struct parList *pars)
     K = P0 / pow(rho0, GAM);
     dx = (x-x0)/L;
     cs = sqrt(GAM*P0/rho0);
+    f = f >= 0 ? 1.0 : -1.0;
 
-    J = -2.0 * cs / (GAM-1.0); 
+    J = -f*2.0 * cs / (GAM-1.0); 
 
     rho = rho0;
     P = P0;
@@ -34,7 +36,7 @@ void initial_isentrope(double *prim, double x, struct parList *pars)
         rho += a * rho0 * pow(dx*dx-1.0, 4);
         P = K * pow(rho, GAM);
         cs = sqrt(GAM*P/rho); 
-        vx = J + 2.0 * cs / (GAM-1.0);
+        vx = J + f *  2.0 * cs / (GAM-1.0);
     }
 
     prim[RHO] = rho;
