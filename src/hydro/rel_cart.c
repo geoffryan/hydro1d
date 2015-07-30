@@ -56,10 +56,13 @@ void cons2prim_rel_cart(double *cons, double *prim, double x, double dV,
         du2 = -f/df;
         u2 += du2;
 
-        printf("%d %.6g %.6g %.6g %.6g\n", i, u2, f, df, du2);
+        //printf("%d %.6g %.6g %.6g %.6g\n", i, u2, f, df, du2);
         i++;
     }
-    while(fabs(du2) > ERR);
+    while(fabs(du2) > ERR && i < 1000);
+
+    if(i == 1000)
+        printf("cons2prim failed. ERR = %.12lg\n", du2);
 
     double w = sqrt(1.0 + u2);
     double rho = D/w;

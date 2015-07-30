@@ -1,6 +1,7 @@
 #Parameter File for HYDRO1D
 
-Hydro       0    // 0 Newtonian
+Hydro       0    // 0 NewtonianCartesian, 1 NewtonianCylindrical,
+                 // 2 NewtonianSpherical, 3 RelativisticCartesian
 EOS         7    // 0 Ideal Gamma-law gas.
 Cool        7    // 0 No Cooling
 Recon       1    // 0 PCM, 1 PLM

@@ -7,6 +7,8 @@ int set_initial(struct parList *pars);
 void initialize_grid(struct grid *g, struct parList *pars);
 void initial_uniform(double *prim, double x, struct parList *pars);
 void initial_shocktube(double *prim, double x, struct parList *pars);
+void initial_shocktube_transverse(double *prim, double x, 
+                                struct parList *pars);
 void initial_isentrope(double *prim, double x, struct parList *pars);
 
 #endif

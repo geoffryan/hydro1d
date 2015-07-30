@@ -31,8 +31,10 @@ def plot_grid(filename, show=False):
 
     ax = fig.add_subplot(2,2,1)
     plot_dat(ax, x, rho, 'k+', xlabel=r"$x$", ylabel=r"$\rho$", xlim=xlim)
+    ax.set_yscale("log")
     ax = fig.add_subplot(2,2,2)
     plot_dat(ax, x, P, 'k+', xlabel=r"$x$", ylabel=r"$P$", xlim=xlim)
+    ax.set_yscale("log")
     ax = fig.add_subplot(2,2,3)
     plot_dat(ax, x, v1, 'k+', xlabel=r"$x$", ylabel=r"$v_x$", xlim=xlim)
     ax = fig.add_subplot(2,2,4)

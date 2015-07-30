@@ -19,6 +19,10 @@ int set_initial(struct parList *pars)
     }
     else if(choice == 2)
     {
+        initial_value = &initial_shocktube_transverse;
+    }
+    else if(choice == 3)
+    {
         initial_value = &initial_isentrope;
     }
     else
