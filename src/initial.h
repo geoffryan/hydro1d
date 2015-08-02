@@ -10,5 +10,6 @@ void initial_shocktube(double *prim, double x, struct parList *pars);
 void initial_shocktube_transverse(double *prim, double x, 
                                 struct parList *pars);
 void initial_isentrope(double *prim, double x, struct parList *pars);
+void initial_disc(double *prim, double x, struct parList *pars);
 
 #endif

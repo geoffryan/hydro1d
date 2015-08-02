@@ -69,4 +69,24 @@ void wave_speeds_rel_cart(double *prim1, double *prim2, double *sL,
 double mindt_rel_cart(double *prim, double x, double dx, 
                         struct parList *pars);
 
+void prim2cons_rel_metric(double *prim, double *cons, double x, double dV,
+                            struct parList *pars);
+void cons2prim_rel_metric(double *cons, double *prim, double x, double dV,
+                            struct parList *pars);
+void flux_rel_metric(double *prim, double *F, double x, struct parList *pars);
+void add_source_rel_metric(double *prim, double *cons, double x, double dVdt, 
+                            struct parList *pars);
+void wave_speeds_rel_metric(double *prim1, double *prim2, double *sL, 
+                            double *sR, double *sC, double x, 
+                            struct parList *pars);
+double mindt_rel_metric(double *prim, double x, double dx, 
+                        struct parList *pars);
+
+void (*frame_U)(double, double, double *);
+void (*frame_dU)(double, double, double *);
+void frame_normal_U(double r, double M, double U[]);
+void frame_normal_dU(double r, double M, double dU[]);
+void frame_geo_schw_U(double r, double M, double U[]);
+void frame_geo_schw_dU(double r, double M, double dU[]);
+
 #endif

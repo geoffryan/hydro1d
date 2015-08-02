@@ -1,0 +1,42 @@
+#Parameter File for HYDRO1D
+
+Hydro       4    // 0 NewtonianCartesian, 1 NewtonianCylindrical,
+                 // 2 NewtonianSpherical, 3 RelativisticCartesian,
+                 // 4 RelativisticSchwarzschild
+EOS         7    // 0 Ideal Gamma-law gas.
+Cool        7    // 0 No Cooling
+Recon       1    // 0 PCM, 1 PLM
+Riemann     1    // 0 Lax-Friedrichs, 1 HLL
+Timestep    3    // 0 Forward-Euler, 1 RK2-MP, 2 RK2-TVD, 3 RK3-TVD
+Frame       1    // 0 Normal, 1 Geodesic-Schw
+BCInner     2    // 0 Fixed, 1 Outflow, 2 Geodesic
+BCOuter     0    // 0 Fixed, 1 Outflow, 2 Geodesic
+
+Nx          512  // Number of zones
+Nghost      2    // Number of ghost zones
+Ncons       4    // Number of conserved quantities
+Npass       0    // Number of passive quantities
+
+Tmin        0.0
+Tmax        1.0e4
+Xmin        1.5
+Xmax        10.0
+
+NumCheckpoints 100
+
+PLM         1.5
+CFL         0.5
+GammaLaw    1.666666666
+M           1.0
+
+Init        4        // 0 Uniform, 1 Shocktube, 2 Shocktube-transverse, 
+                     // 3 Isentrope, 4 Disc
+InitPar1    1000   // r0
+InitPar2    1.0   // rho0
+InitPar3    0.0      // rho-slope
+InitPar4    1.0e-3   // P0
+InitPar5    0.0    // P-slope
+InitPar6    0.0      // 
+InitPar7    0.0      // 
+InitPar8    0.0      // 
+

@@ -9,5 +9,7 @@ void bc_fixed_inner(struct grid *g, struct parList *pars);
 void bc_fixed_outer(struct grid *g, struct parList *pars);
 void bc_outflow_inner(struct grid *g, struct parList *pars);
 void bc_outflow_outer(struct grid *g, struct parList *pars);
+void bc_geodesic_inner(struct grid *g, struct parList *pars);
+void bc_geodesic_outer(struct grid *g, struct parList *pars);
 
 #endif

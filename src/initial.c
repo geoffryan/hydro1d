@@ -25,6 +25,10 @@ int set_initial(struct parList *pars)
     {
         initial_value = &initial_isentrope;
     }
+    else if(choice == 4)
+    {
+        initial_value = &initial_disc;
+    }
     else
     {
         printf("ERROR - Invalid Initial Condition choice: %d\n", pars->init);
