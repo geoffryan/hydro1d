@@ -16,6 +16,7 @@ int set_hydro(struct parList *pars)
         add_source = &add_source_newt_cart;
         wave_speeds = &wave_speeds_newt_cart;
         mindt = &mindt_newt_cart;
+        grid_V = &grid_V_newt_cart;
     }
     else if(choice == 1)
     {
@@ -25,6 +26,7 @@ int set_hydro(struct parList *pars)
         add_source = &add_source_newt_cyl;
         wave_speeds = &wave_speeds_newt_cyl;
         mindt = &mindt_newt_cyl;
+        grid_V = &grid_V_newt_cyl;
     }
     else if(choice == 2)
     {
@@ -34,6 +36,7 @@ int set_hydro(struct parList *pars)
         add_source = &add_source_newt_sph;
         wave_speeds = &wave_speeds_newt_sph;
         mindt = &mindt_newt_sph;
+        grid_V = &grid_V_newt_sph;
     }
     else if(choice == 3)
     {
@@ -43,6 +46,7 @@ int set_hydro(struct parList *pars)
         add_source = &add_source_rel_cart;
         wave_speeds = &wave_speeds_rel_cart;
         mindt = &mindt_rel_cart;
+        grid_V = &grid_V_rel_cart;
     }
     else if(choice == 4)
     {
@@ -52,6 +56,7 @@ int set_hydro(struct parList *pars)
         add_source = &add_source_rel_metric;
         wave_speeds = &wave_speeds_rel_metric;
         mindt = &mindt_rel_metric;
+        grid_V = &grid_V_rel_metric;
 
         int frame = pars->frame;
         if(frame == 0)

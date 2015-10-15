@@ -172,3 +172,13 @@ double mindt_rel_cart(double *prim, double x, double dx, double cw,
 
     return dt;
 }
+
+double grid_V_rel_cart(double *prim, double x, struct parList *pars)
+{
+    double ux = prim[VX1];
+    double uy = prim[VX2];
+
+    double u0 = sqrt(1.0 + ux*ux + uy*uy);
+
+    return ux/u0;
+}

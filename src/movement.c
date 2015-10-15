@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "geom.h"
 #include "grid.h"
 #include "hydro.h"
 #include "par.h"
@@ -38,8 +39,14 @@ void move_local(struct grid *g, struct parList *pars)
     int nq = g->nq;
 
     int i;
+    double vL, vR;
+    vR = grid_V(&(g->prim[0]), CM(g->x[0],g->x[1]), pars);
     for(i=1; i<nx; i++)
-        g->w[i] = 0.5*(g->prim[nq*(i-1)+VX1] + g->prim[nq*i+VX1]);
+    {
+        vL = vR;
+        vR = grid_V(&(g->prim[nq*i]), CM(g->x[i],g->x[i+1]), pars);
+        g->w[i] = 0.5*(vL+vR);
+    }
     g->w[0] = g->w[1];
     g->w[nx] = g->w[nx-1];
 }

@@ -15,6 +15,7 @@ void (*wave_speeds)(double *prim1, double *prim2, double *sL, double *sR,
                     double *sC, double x, struct parList *pars);
 double (*mindt)(double *prim, double x, double dx, double cw, 
                 struct parList *pars);
+double (*grid_V)(double *prim, double x, struct parList *pars);
 
 int set_hydro(struct parList *pars);
 
@@ -30,6 +31,7 @@ void wave_speeds_newt_cart(double *prim1, double *prim2, double *sL,
                             struct parList *pars);
 double mindt_newt_cart(double *prim, double x, double dx, double cw,
                         struct parList *pars);
+double grid_V_newt_cart(double *prim, double x, struct parList *pars);
 
 void prim2cons_newt_cyl(double *prim, double *cons, double x, double dV,
                             struct parList *pars);
@@ -43,6 +45,8 @@ void wave_speeds_newt_cyl(double *prim1, double *prim2, double *sL,
                             struct parList *pars);
 double mindt_newt_cyl(double *prim, double x, double dx, double cw,
                         struct parList *pars);
+double grid_V_newt_cyl(double *prim, double x, struct parList *pars);
+
 
 void prim2cons_newt_sph(double *prim, double *cons, double x, double dV,
                             struct parList *pars);
@@ -56,6 +60,8 @@ void wave_speeds_newt_sph(double *prim1, double *prim2, double *sL,
                             struct parList *pars);
 double mindt_newt_sph(double *prim, double x, double dx, double cw, 
                         struct parList *pars);
+double grid_V_newt_sph(double *prim, double x, struct parList *pars);
+
 
 void prim2cons_rel_cart(double *prim, double *cons, double x, double dV,
                             struct parList *pars);
@@ -69,6 +75,8 @@ void wave_speeds_rel_cart(double *prim1, double *prim2, double *sL,
                             struct parList *pars);
 double mindt_rel_cart(double *prim, double x, double dx, double cw, 
                         struct parList *pars);
+double grid_V_rel_cart(double *prim, double x, struct parList *pars);
+
 
 void prim2cons_rel_metric(double *prim, double *cons, double x, double dV,
                             struct parList *pars);
@@ -82,6 +90,8 @@ void wave_speeds_rel_metric(double *prim1, double *prim2, double *sL,
                             struct parList *pars);
 double mindt_rel_metric(double *prim, double x, double dx, double cw, 
                         struct parList *pars);
+double grid_V_rel_metric(double *prim, double x, struct parList *pars);
+
 
 void (*frame_U)(double, double, double *);
 void (*frame_dU)(double, double, double *);

@@ -93,3 +93,8 @@ double mindt_newt_sph(double *prim, double x, double dx, double cw,
 
     return dt;
 }
+
+double grid_V_newt_sph(double *prim, double x, struct parList *pars)
+{
+    return prim[VX1];
+}

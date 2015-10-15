@@ -28,7 +28,7 @@ void initial_disc(double *prim, double x, struct parList *pars)
     }
     else
     {
-        prim[VX1] = 2*M/(x*sqrt(1-3*M/x));
+        prim[VX1] = 2*M/(x*sqrt(1.0-3.0*M/x));
         prim[VX2] = sqrt(M*x / (1.0 - 3*M/x));
     }
 

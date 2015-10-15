@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "grid.h"
 #include "par.h"
+#include "geom.h"
 #include "initial.h"
 
 int set_initial(struct parList *pars)
@@ -48,7 +49,7 @@ void initialize_grid(struct grid *g, struct parList *pars)
     {
         double xm = g->x[i];
         double xp = g->x[i+1];
-        double x = 0.5*(xm+xp);
+        double x = CM(xm,xp);
         initial_value(&(g->prim[nq*i]), x, pars);
     }
 }

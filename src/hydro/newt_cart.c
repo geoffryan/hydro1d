@@ -97,3 +97,8 @@ double mindt_newt_cart(double *prim, double x, double dx, double cw,
 
     return dt;
 }
+
+double grid_V_newt_cart(double *prim, double x, struct parList *pars)
+{
+    return prim[VX1];
+}

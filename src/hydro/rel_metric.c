@@ -234,6 +234,22 @@ double mindt_rel_metric(double *prim, double r, double dx, double cw,
     return dt;
 }
 
+double grid_V_rel_metric(double *prim, double r, struct parList *pars)
+{
+    double ur = prim[VX1];
+    double up = prim[VX2];
+    double M = pars->M;
+
+
+    double u2 = IG3RR*ur*ur + 2*IG3RP*ur*up + IG3PP*up*up;
+    double w = sqrt(1.0 + u2);
+    double u0 = (w/AL - IG40R*ur - IG40P*up) / IG400;
+    double urr = IG40R*u0 + IG4RR*ur + IG4RP*up;
+    double vr = urr*AL/w;
+
+    return vr;
+}
+
 void frame_normal_U(double r, double M, double U[])
 {
     U[0] = sqrt(1.0+2.0*M/r);
