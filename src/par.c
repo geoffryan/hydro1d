@@ -59,6 +59,7 @@ void read_pars(struct parList *theParList, char filename[])
     readvar(filename, "Recon",  VAR_INT, &(theParList->recon));
     readvar(filename, "Riemann",  VAR_INT, &(theParList->riemann));
     readvar(filename, "Timestep",  VAR_INT, &(theParList->step));
+    readvar(filename, "Movement",  VAR_INT, &(theParList->movement));
     readvar(filename, "Frame",  VAR_INT, &(theParList->frame));
     readvar(filename, "BCInner",  VAR_INT, &(theParList->bcInner));
     readvar(filename, "BCOuter",  VAR_INT, &(theParList->bcOuter));
@@ -95,6 +96,7 @@ void print_pars(struct parList *theParList)
     printf("Recon: %d\n", theParList->recon);
     printf("Riemann: %d\n", theParList->riemann);
     printf("Timestep: %d\n", theParList->step);
+    printf("Movement: %d\n", theParList->movement);
     printf("Frame: %d\n", theParList->frame);
     printf("BCInner: %d\n", theParList->bcInner);
     printf("BCOuter: %d\n", theParList->bcOuter);

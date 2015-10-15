@@ -42,7 +42,7 @@ void cons2prim_rel_cart(double *cons, double *prim, double x, double dV,
     double c3 = -2*e*(gam-1.0)/gam;
 
     double u2 = prim[VX1]*prim[VX1] + prim[VX2]*prim[VX2];
-    double du2;
+    double du2 = 1.0e100;
 
     int i = 0;
     do
@@ -145,7 +145,8 @@ void wave_speeds_rel_cart(double *prim1, double *prim2, double *sL, double *sR,
     *sC = 0.0;
 }
 
-double mindt_rel_cart(double *prim, double x, double dx, struct parList *pars)
+double mindt_rel_cart(double *prim, double x, double dx, double cw, 
+                        struct parList *pars)
 {
     double rho = prim[RHO];
     double P = prim[PPP];
@@ -163,13 +164,11 @@ double mindt_rel_cart(double *prim, double x, double dx, struct parList *pars)
 
     double dv = sqrt(cs2 * (1.0 - (vx*vx + vy*vy*cs2)) / (w*w));
 
-    double s;
-    if(vx > 0)
-        s = (vx*(1-cs2) + dv) / (1.0 - v2*cs2);
-    else
-        s = (vx*(1-cs2) - dv) / (1.0 - v2*cs2);
+    double sr = fabs((vx*(1-cs2) + dv) / (1.0 - v2*cs2) - cw);
+    double sl = fabs((vx*(1-cs2) + dv) / (1.0 - v2*cs2) - cw);
+    double s = sl > sr ? sl : sr;
 
-    double dt = dx / fabs(s);
+    double dt = dx / s;
 
     return dt;
 }

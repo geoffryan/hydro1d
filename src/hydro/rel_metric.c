@@ -57,7 +57,7 @@ void cons2prim_rel_metric(double *cons, double *prim, double r, double dV,
 
     double u2 = IG3RR*prim[VX1]*prim[VX1] + IG3PP*prim[VX2]*prim[VX2]
                 + 2*IG3RP*prim[VX1]*prim[VX2];
-    double du2;
+    double du2 = 1.0e100;
 
     int i = 0;
     do
@@ -201,7 +201,7 @@ void wave_speeds_rel_metric(double *prim1, double *prim2, double *sL, double *sR
     *sC = 0.0;
 }
 
-double mindt_rel_metric(double *prim, double r, double dx, 
+double mindt_rel_metric(double *prim, double r, double dx, double cw, 
                         struct parList *pars)
 {
     double rho = prim[RHO];
@@ -224,13 +224,12 @@ double mindt_rel_metric(double *prim, double r, double dx,
     double sig = cs2 / (w*w * (1.0-cs2));
     double dv = sqrt(sig*(1.0+sig)*AL*AL*IG3RR - sig*(vr+br)*(vr+br));
 
-    double s;
-    if(vr > 0)
-        s = (vr - sig*br + dv) / (1.0 + sig);
-    else
-        s = (vr - sig*br - dv) / (1.0 + sig);
+    double sl = fabs((vr - sig*br - dv) / (1.0 + sig) - cw);
+    double sr = fabs((vr - sig*br + dv) / (1.0 + sig) - cw);
 
-    double dt = dx / fabs(s);
+    double s = sl > sr ? sl : sr;
+
+    double dt = dx / s;
 
     return dt;
 }

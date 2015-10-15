@@ -6,6 +6,7 @@
 #include "hydro.h"
 #include "initial.h"
 #include "io.h"
+#include "movement.h"
 #include "riemann.h"
 #include "timestep.h"
 
@@ -37,6 +38,7 @@ int main(int argc, char *argv[])
     err += set_timestep(&pars);
     err += set_bc(&pars);
     err += set_hydro(&pars);
+    err += set_movement(&pars);
 
     if(err)
     {

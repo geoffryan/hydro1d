@@ -79,7 +79,8 @@ void wave_speeds_newt_cart(double *prim1, double *prim2, double *sL, double *sR,
     *sC = 0.0;
 }
 
-double mindt_newt_cart(double *prim, double x, double dx, struct parList *pars)
+double mindt_newt_cart(double *prim, double x, double dx, double cw, 
+                        struct parList *pars)
 {
     double rho = prim[RHO];
     double P = prim[PPP];
@@ -87,7 +88,12 @@ double mindt_newt_cart(double *prim, double x, double dx, struct parList *pars)
     double gam = pars->gammalaw;
 
     double cs = sqrt(gam*P/rho);
-    double dt = dx/(cs + fabs(v));
+    
+    double sl = fabs(v + cs - cw);
+    double sr = fabs(v - cs - cw);
+    double s = sl > sr ? sl : sr;
+
+    double dt = dx / s;
 
     return dt;
 }

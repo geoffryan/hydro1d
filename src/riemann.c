@@ -24,10 +24,10 @@ int set_riemann_solver(struct parList *pars)
 }
 
 void lax_friedrichs_flux(double primL[], double primR[], double F[], int nq,
-                         double x, double dt, struct parList *pars)
+                         double x, double w, struct parList *pars)
 {
     double sL, sR, sC, s;
-    double UL[nq], UR[nq], FL[nq], FR[nq];
+    double U[nq], UL[nq], UR[nq], FL[nq], FR[nq];
 
     prim2cons(primL, UL, x, 1.0, pars);
     prim2cons(primR, UR, x, 1.0, pars);
@@ -39,14 +39,19 @@ void lax_friedrichs_flux(double primL[], double primR[], double F[], int nq,
 
     int q;
     for(q=0; q<nq; q++)
-        F[q] = 0.5*(FL[q] + FR[q] - s*(UR[q] - UL[q]));
+        U[q] = 0.5*(UL[q] + UR[q] - (FR[q] - FL[q])/s);
+    for(q=0; q<nq; q++)
+        F[q] = 0.5*(FL[q] + FR[q] - s*(UR[q] - UL[q])) - w * U[q];
+
+    
+
 }
 
 void hll_flux(double primL[], double primR[], double F[], int nq,
-                double x, double dt, struct parList *pars)
+                double x, double w, struct parList *pars)
 {
     double sL, sR, sC;
-    double UL[nq], UR[nq], FL[nq], FR[nq];
+    double U[nq], UL[nq], UR[nq], FL[nq], FR[nq];
 
     prim2cons(primL, UL, x, 1.0, pars);
     prim2cons(primR, UR, x, 1.0, pars);
@@ -55,13 +60,25 @@ void hll_flux(double primL[], double primR[], double F[], int nq,
     wave_speeds(primL, primR, &sL, &sR, &sC, x, pars);
 
     int q;
-    if(sL > 0.0)
+    if(sL > w)
         for(q=0; q<nq; q++)
+        {
+            U[q] = UL[q];
             F[q] = FL[q];
-    else if(sR < 0.0)
+        }
+    else if(sR < w)
         for(q=0; q<nq; q++)
+        {
+            U[q] = UR[q];
             F[q] = FR[q];
+        }
     else
         for(q=0; q<nq; q++)
+        {
+            U[q] = (sR*UR[q] - sL*UL[q] - (FR[q] - FL[q])) / (sR - sL);
             F[q] = (sR*FL[q] - sL*FR[q] + sL*sR*(UR[q] - UL[q])) / (sR - sL);
+        }
+
+    for(q=0; q<nq; q++)
+        F[q] -= w*U[q];
 }

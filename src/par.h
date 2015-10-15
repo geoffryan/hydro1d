@@ -11,6 +11,7 @@ struct parList
     int recon;
     int riemann;
     int step;
+    int movement;
     int frame;
     int bcInner;
     int bcOuter;
@@ -47,6 +48,7 @@ const static struct parList PAR_DEFAULT = {
     .recon = 0,
     .riemann = 0,
     .step = 0,
+    .movement = 0,
     .frame = 0,
     .bcInner = 0,
     .bcOuter = 0,

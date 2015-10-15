@@ -14,6 +14,8 @@ struct grid
     double xmax;
     double t;
     double *x;
+    double *x_rk;
+    double *w;
     double *prim;
     double *cons;
     double *cons_rk;
@@ -31,6 +33,8 @@ const static struct grid GRID_DEFAULT = {
     .xmax = 1.0,
     .t = 0.0,
     .x = NULL,
+    .x_rk = NULL,
+    .w = NULL,
     .prim = NULL,
     .cons = NULL,
     .cons_rk = NULL,
@@ -47,7 +51,9 @@ void free_grid(struct grid *g);
 void interpolate_constant(struct grid *g);
 void interpolate_plm(struct grid *g);
 void copy_to_rk(struct grid *g);
-void update_rk(struct grid *g, double fac1, double fac2);
 void update_cons(struct grid *g, double fac1, double fac2);
+void update_cons_rk(struct grid *g, double fac1, double fac2);
+void update_x(struct grid *g, double fac1, double fac2);
+void update_x_rk(struct grid *g, double fac1, double fac2);
 
 #endif

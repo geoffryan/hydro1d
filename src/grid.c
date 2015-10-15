@@ -40,6 +40,8 @@ void make_grid(struct grid *g, struct parList *pars)
     g->PLM = pars->plm;
 
     g->x = (double *) malloc((g->nx+1) * sizeof(double));
+    g->x_rk = (double *) malloc((g->nx+1) * sizeof(double));
+    g->w = (double *) malloc((g->nx+1) * sizeof(double));
     g->prim = (double *) malloc(g->nx * g->nq * sizeof(double));
     g->cons = (double *) malloc(g->nx * g->nq * sizeof(double));
     g->cons_rk = (double *) malloc(g->nx * g->nq * sizeof(double));
@@ -48,12 +50,18 @@ void make_grid(struct grid *g, struct parList *pars)
     int i;
     double dx = (g->xmax - g->xmin) / g->nx_int;
     for(i=0; i<g->nx+1; i++)
+    {
         g->x[i] = g->xmin + (i - g->ng) * dx;
+        g->x_rk[i] = g->x[i];
+        g->w[i] = 0.0;
+    }
 }
 
 void free_grid(struct grid *g)
 {
     free(g->x);
+    free(g->x_rk);
+    free(g->w);
     free(g->prim);
     free(g->cons);
     free(g->cons_rk);
@@ -117,9 +125,23 @@ void copy_to_rk(struct grid *g)
 
     for(i=0; i<nx*nq; i++)
         g->cons_rk[i] = g->cons[i];
+    for(i=0; i<nx+1; i++)
+        g->x_rk[i] = g->x[i];
 }
 
-void update_rk(struct grid *g, double fac1, double fac2)
+void update_cons(struct grid *g, double fac1, double fac2)
+{
+    // Update cons with fac1*cons & fac2*cons_rk
+    
+    int i;
+    int nx = g->nx;
+    int nq = g->nq;
+
+    for(i=0; i<nx*nq; i++)
+        g->cons[i] = fac1 * g->cons[i] + fac2 * g->cons_rk[i];
+}
+
+void update_cons_rk(struct grid *g, double fac1, double fac2)
 {
     // Update cons_rk with fac1*cons & fac2*cons_rk
 
@@ -131,16 +153,22 @@ void update_rk(struct grid *g, double fac1, double fac2)
         g->cons_rk[i] = fac1 * g->cons[i] + fac2 * g->cons_rk[i];
 }
 
-void update_cons(struct grid *g, double fac1, double fac2)
+void update_x(struct grid *g, double fac1, double fac2)
 {
-    // Update cons with fac*cons & (1-fac)*cons_rk
-    
     int i;
     int nx = g->nx;
-    int nq = g->nq;
 
-    for(i=0; i<nx*nq; i++)
-        g->cons[i] = fac1 * g->cons[i] + fac2 * g->cons_rk[i];
+    for(i=0; i<nx+1; i++)
+        g->x[i] = fac1 * g->x[i] + fac2 * g->x_rk[i];
+}
+
+void update_x_rk(struct grid *g, double fac1, double fac2)
+{
+    int i;
+    int nx = g->nx;
+
+    for(i=0; i<nx+1; i++)
+        g->x_rk[i] = fac1 * g->x[i] + fac2 * g->x_rk[i];
 }
 
 //Local definitions
