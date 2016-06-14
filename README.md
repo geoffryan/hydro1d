@@ -34,12 +34,14 @@ and more can all be varied at run time. Each module contains one or more
 generic function pointers which are set to the appropriate specific functions
 during initialization by a `set_...()` function.  For example `timestep.h`
 declares the `timestep` function `void (*timestep)(struct grid *, double, struct parList *)`.  This pointer is initialized by the 
-`set_timestep(struct parList *pars)` function.  Possible options are `step_fe`,
-`step_rk2_mp`, `step_rk3_tvd`, etc. all defined in `timestep.c`.
+`set_timestep(struct parList *pars)` function.  Possible options `step_fe`,
+`step_rk2_mp`, `step_rk3_tvd`, etc. are all defined in `timestep.c`.
 
 The source code is organized as follows:
 
 * `main.c`: Contains `main()`. Sets paramters and runs the code.
+* `substep.c`: Primitive timestep. Marches the grid by a single first order
+    timestep. The building block for all higher-order time evolution algorithms.
 * `boundary.h/c`: Boundary conditions.  Currently implements fixed
     (e.g. Dirichlet), outflow (e.g. zero-gradient), and geodesic (relativistic
     only). 
@@ -74,8 +76,6 @@ The source code is organized as follows:
 * `par.h/c`: Defines the `struct parList`. This structure contains all the user
     parameters set in the given `parfile`.
 * `riemann.h/c`: Riemann solvers. Includes Lax-Friedrichs, HLLE, and HLLC.
-* `substep.c`: Primitive timestep. Marches the grid by a single first order
-    timestep. The building block for all higher-order time evolution algorithms.
 * `timestep.h/c`: Time evolution algorithms, built entirely around calls to
     `substep()`.  Includes Forward Euler (`step_fe`), Midpoint RK2
     (`step_rk2_mp`), TVD RK2 (`step_rk2_tvd`), and TVD RK3 (`step_rk3_tvd`).
