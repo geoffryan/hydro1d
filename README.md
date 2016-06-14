@@ -11,9 +11,26 @@ conditions for other projects.
 
 To install, just type `make`!
 
+## Running ##
+
+`Hydro1D` takes a single command line argument: a parameter file with the
+desired setup specified. Sample parameter files are included in `parfiles/`.
+To run the cartesian isentropic wave example, from the project directory run:
+
+    $ bin/hydro1d parfiles/isentrope.par
+
 ### Visualization Requirements ###
 
 Some simple python visualization scripts are included in `vis/`. They require
 `numpy` and `matplotlib` python libraries to function correctly.
+
+## Code Structure ##
+
+The `Hydro1D` executable lives in `bin/`. Source code is contained in `src/`.  
+Sample parameter files are in `parfiles/` and visualization scripts in `vis/`.
+
+
+
+
 
 
