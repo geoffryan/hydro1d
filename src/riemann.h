@@ -10,5 +10,7 @@ void lax_friedrichs_flux(double primL[], double primR[], double F[], int nq,
                             double x, double w, struct parList *pars);
 void hll_flux(double primL[], double primR[], double F[], int nq,
                  double x, double w, struct parList *pars);
+void hllc_flux(double primL[], double primR[], double F[], int nq,
+                 double x, double w, struct parList *pars);
 
 #endif

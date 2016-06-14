@@ -5,9 +5,9 @@ Hydro       0    // 0 NewtonianCartesian, 1 NewtonianCylindrical,
 EOS         7    // 0 Ideal Gamma-law gas.
 Cool        7    // 0 No Cooling
 Recon       1    // 0 PCM, 1 PLM
-Riemann     1    // 0 Lax-Friedrichs, 1 HLL
+Riemann     1    // 0 Lax-Friedrichs, 1 HLL, 2 HLLC
 Timestep    0    // 0 Forward-Euler, 1 RK2
-Movement    1    // 0 None, 1 Local-Fluid
+Movement    0    // 0 None, 1 Local-Fluid
 BCInner     0    // 0 Fixed, 1 Outflow
 BCOuter     0    // 0 Fixed, 1 Outflow
 

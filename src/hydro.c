@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "par.h"
 #include "hydro.h"
+#include "geom.h"
 
 int set_hydro(struct parList *pars)
 {
@@ -17,6 +18,10 @@ int set_hydro(struct parList *pars)
         wave_speeds = &wave_speeds_newt_cart;
         mindt = &mindt_newt_cart;
         grid_V = &grid_V_newt_cart;
+        Ustar = &Ustar_newt_cart;
+        CM = &CM_cart;
+        DA = &DA_cart;
+        DV = &DV_cart;
     }
     else if(choice == 1)
     {
@@ -27,6 +32,9 @@ int set_hydro(struct parList *pars)
         wave_speeds = &wave_speeds_newt_cyl;
         mindt = &mindt_newt_cyl;
         grid_V = &grid_V_newt_cyl;
+        CM = &CM_cyl;
+        DA = &DA_cyl;
+        DV = &DV_cyl;
     }
     else if(choice == 2)
     {
@@ -37,6 +45,9 @@ int set_hydro(struct parList *pars)
         wave_speeds = &wave_speeds_newt_sph;
         mindt = &mindt_newt_sph;
         grid_V = &grid_V_newt_sph;
+        CM = &CM_sph;
+        DA = &DA_sph;
+        DV = &DV_sph;
     }
     else if(choice == 3)
     {
@@ -47,6 +58,9 @@ int set_hydro(struct parList *pars)
         wave_speeds = &wave_speeds_rel_cart;
         mindt = &mindt_rel_cart;
         grid_V = &grid_V_rel_cart;
+        CM = &CM_cart;
+        DA = &DA_cart;
+        DV = &DV_cart;
     }
     else if(choice == 4)
     {
@@ -57,6 +71,9 @@ int set_hydro(struct parList *pars)
         wave_speeds = &wave_speeds_rel_metric;
         mindt = &mindt_rel_metric;
         grid_V = &grid_V_rel_metric;
+        CM = &CM_cart;
+        DA = &DA_cart;
+        DV = &DV_cart;
 
         int frame = pars->frame;
         if(frame == 0)

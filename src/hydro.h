@@ -16,6 +16,8 @@ void (*wave_speeds)(double *prim1, double *prim2, double *sL, double *sR,
 double (*mindt)(double *prim, double x, double dx, double cw, 
                 struct parList *pars);
 double (*grid_V)(double *prim, double x, struct parList *pars);
+void (*Ustar)(double *prim, double *Us, double sK, double sC, double x,
+                    struct parList *pars);
 
 int set_hydro(struct parList *pars);
 
@@ -32,6 +34,9 @@ void wave_speeds_newt_cart(double *prim1, double *prim2, double *sL,
 double mindt_newt_cart(double *prim, double x, double dx, double cw,
                         struct parList *pars);
 double grid_V_newt_cart(double *prim, double x, struct parList *pars);
+void Ustar_newt_cart(double *prim, double *Us, double sK, double sC, double x,
+                        struct parList *pars);
+
 
 void prim2cons_newt_cyl(double *prim, double *cons, double x, double dV,
                             struct parList *pars);

@@ -4,16 +4,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import readGrid as rg
 
-rhoRef = 1.0
-PRef = 1.0
-xRef = 1.5
-L = 0.4
-a = 1.0
-GAM = 5.0/3.0
+def profile(x, pars):
 
-K = PRef / math.pow(rhoRef, GAM)
-
-def profile(x, dir=1.0):
+    rhoRef = pars['InitPar1']
+    PRef = pars['InitPar2']
+    xRef = pars['InitPar3']
+    L = pars['InitPar4']
+    a = pars['InitPar5']
+    dir = pars['InitPar6']
+    GAM = pars['GammaLaw']
+    K = PRef / math.pow(rhoRef, GAM)
 
     rho = rhoRef * np.ones(x.shape)
 
@@ -39,9 +39,12 @@ def profile(x, dir=1.0):
 
     return rho, P, v
 
-def isentropeDirect(t, x0, dir=1.0):
+def isentropeDirect(t, x0, pars):
 
-    rho, P, v = profile(x0, dir=dir)
+    dir = pars['InitPar6']
+    GAM = pars['GammaLaw']
+
+    rho, P, v = profile(x0, pars)
     if dir >= 0:
         la = v + np.sqrt(GAM*P/rho)
     else:
@@ -50,8 +53,15 @@ def isentropeDirect(t, x0, dir=1.0):
 
     return x, rho, P, v
 
-def isentrope(t, x, err=1.0e-10, dir=1.0):
+def isentrope(t, x, pars, err=1.0e-10):
     
+    rhoRef = pars['InitPar1']
+    PRef = pars['InitPar2']
+    a = pars['InitPar5']
+    dir = pars['InitPar6']
+    GAM = pars['GammaLaw']
+    K = PRef / math.pow(rhoRef, GAM)
+
     csMax = math.sqrt(GAM * K * math.pow(rhoRef*(1.0+a), GAM-1.0))
     if dir >= 0:
         xb = x.copy()
@@ -65,8 +75,8 @@ def isentrope(t, x, err=1.0e-10, dir=1.0):
 
     i = 0
 
-    while np.abs(dx/x0).mean() > err:
-        rho0, P0, v0 = profile(x0, dir=dir)
+    while np.abs(dx).mean() > err:
+        rho0, P0, v0 = profile(x0, pars)
 
         if dir >= 0:
             la = v0 + np.sqrt(GAM*P0/rho0)
@@ -81,16 +91,25 @@ def isentrope(t, x, err=1.0e-10, dir=1.0):
 
         i += 1
 
-    rho, P, v = profile(x0, dir=dir)
+    rho, P, v = profile(x0, pars)
 
     return x0, rho, P, v
 
-def calc_err(filename, dir=1.0):
+def calc_err(filename, pars):
+
+    rhoRef = pars['InitPar1']
+    PRef = pars['InitPar2']
+    xRef = pars['InitPar3']
+    L = pars['InitPar4']
+    a = pars['InitPar5']
+    dir = pars['InitPar6']
+    GAM = pars['GammaLaw']
+    K = PRef / math.pow(rhoRef, GAM)
 
     ver, t, xf, x, rho, P, v1, v2 = rg.readGrid(filename)
     dx = xf[1:] - xf[:-1]
 
-    x0, rho_exact, P_exact, v_exact = isentrope(t, x, dir=dir)
+    x0, rho_exact, P_exact, v_exact = isentrope(t, x, pars)
 
     err = (np.abs(rho[2:-2]-rho_exact[2:-2])*dx[2:-2]).sum() \
             / (np.abs(rho_exact[2:-2])*dx[2:-2]).sum()
@@ -99,7 +118,7 @@ def calc_err(filename, dir=1.0):
 
     return N, err, t, x, (rho,P,v1), (rho_exact,P_exact,v_exact)
 
-def plot_convergence(filenames, dir=1.0):
+def plot_convergence(filenames, pars):
 
     fig = plt.figure()
 
@@ -126,9 +145,9 @@ def plot_convergence(filenames, dir=1.0):
 
 
     for i,f in enumerate(filenames):
-        N, err, t, x, dat, exact = calc_err(f, dir=dir)
+        N, err, t, x, dat, exact = calc_err(f, pars)
         x0 = np.linspace(x.min(), x.max(), 1000)
-        xe, rhoe, Pe, ve = isentropeDirect(t, x0, dir=dir)
+        xe, rhoe, Pe, ve = isentropeDirect(t, x0, pars)
         Ns.append(N)
         errs.append(err)
         ts.append(t)
@@ -170,11 +189,13 @@ def plot_convergence(filenames, dir=1.0):
 
 if __name__ == "__main__":
 
-    if len(sys.argv) < 2:
-        print("I need some files to nom.\n")
+    if len(sys.argv) < 3:
+        print("\nusage: python plot_isentrope_convergence.py [parfile] [gridfiles...]\n\n")
         sys.exit()
 
-    plot_convergence(sys.argv[1:], dir=-1.0)
+    pars = rg.readParfile(sys.argv[1])
+
+    plot_convergence(sys.argv[2:], pars)
 
     plt.show()
 

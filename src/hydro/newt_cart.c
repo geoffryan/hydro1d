@@ -53,8 +53,8 @@ void add_source_newt_cart(double *prim, double *cons, double x, double dVdt,
 {
 }
 
-void wave_speeds_newt_cart(double *prim1, double *prim2, double *sL, double *sR,
-                    double *sC, double x, struct parList *pars)
+void wave_speeds_newt_cart(double *prim1, double *prim2, double *sL, 
+                        double *sR, double *sC, double x, struct parList *pars)
 {
     double rho1 = prim1[RHO];
     double P1 = prim1[PPP];
@@ -75,8 +75,7 @@ void wave_speeds_newt_cart(double *prim1, double *prim2, double *sL, double *sR,
     if(v2 + cs2 > *sR)
         *sR = v2 + cs2;
 
-    //TODO: Use proper HLLC wavespeed.
-    *sC = 0.0;
+    *sC = (P2-P1 - rho1*v1*cs1 - rho2*v2*cs2) / (-rho1*cs1-rho2*cs2);
 }
 
 double mindt_newt_cart(double *prim, double x, double dx, double cw, 
@@ -101,4 +100,24 @@ double mindt_newt_cart(double *prim, double x, double dx, double cw,
 double grid_V_newt_cart(double *prim, double x, struct parList *pars)
 {
     return prim[VX1];
+}
+
+void Ustar_newt_cart(double *prim, double *Us, double sK, double sC, double x,
+                        struct parList *pars)
+{
+    double rho = prim[RHO];
+    double P = prim[PPP];
+    double vx = prim[VX1];
+    double vy = prim[VX2];
+    double gam = pars->gammalaw;
+
+    double v2 = vx*vx + vy*vy;
+    double rhostar = rho * (sK-vx) / (sK - sC);
+    double rhoestar = P/(gam-1.0) * (sK-vx) / (sK - sC);
+    double Pstar = P * (sC-vx) / (sK - sC);
+
+    Us[RHO] = rhostar;
+    Us[TAU] = 0.5*rhostar*v2 + rhoestar + rhostar*sC*(sC-vx) + Pstar;
+    Us[SX1] = rhostar * sC;
+    Us[SX2] = rhostar * vy;
 }

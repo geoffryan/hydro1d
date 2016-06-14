@@ -30,3 +30,33 @@ def readGridASCII(filename):
                                 skiprows=3)
 
     return version, t, xf, x, rho, P, v1, v2
+
+def readParfile(filename):
+# Loads the parameter file into a dictionary for easy use in plotting scripts.
+
+    f = open(filename, "r")
+
+    pars = {}
+    for line in f:
+        words = line.split()
+        if len(words) < 2:
+            continue
+
+        key = words[0]
+        sval = words[1]
+
+        if key[0] == '/':
+            continue
+        try:
+            val = int(sval)
+        except ValueError:
+            try:
+                val = float(sval)
+            except ValueError:
+                val = sval
+        pars[key] = val
+
+    f.close()
+
+    return pars
+

@@ -1,10 +1,11 @@
 # Generic Makefile, courtesy of Brian Farris 2013
 
-MAKEFILE_IN = $(PWD)/Makefile.in
-include $(MAKEFILE_IN)
+#MAKEFILE_IN = $(PWD)/Makefile.in
+#include $(MAKEFILE_IN)
 
 APP      = hydro1d
 
+CC       = gcc
 SRCEXT   = c
 SRCDIR   = src
 OBJDIR   = obj
