@@ -61,6 +61,24 @@ The source code is organized as follows:
     * `hydro/rel_metric.c`: Compressible, adiabatic, relativistic euler equations
         in arbitrary geometry.
 * `initial.h/c`: Initial conditions.
+    * `initial/uniform.c`: A uniform fluid. Incredibly basic test.
+    * `initial/shocktube.c`: A general Riemann problem. Basic test.
+    * `initial/shocktube_transverse.c`: A general Riemann problem with transverse
+        velocities. Can be non-trivial.
+    * `initial/isentrope.c`: Cartesian isentropic wave. Has exact solution, good
+        for higher-order convergence tests.
+    * `initial/disc.c`: Relativistic accretion disc.
+* `io.h/c`: Input/output routines. Prints `struct grid` to ASCII.
+* `movement.h/c`: Moves the cell interfaces with the fluid. Implemented schemes
+    are no movement, and with the local fluid velocity. NEEDS WORK.
+* `par.h/c`: Defines the `struct parList`. This structure contains all the user
+    parameters set in the given `parfile`.
+* `riemann.h/c`: Riemann solvers. Includes Lax-Friedrichs, HLLE, and HLLC.
+* `substep.c`: Primitive timestep. Marches the grid by a single first order
+    timestep. The building block for all higher-order time evolution algorithms.
+* `timestep.h/c`: Time evolution algorithms, built entirely around calls to
+    `substep()`.  Includes Forward Euler (`step_fe`), Midpoint RK2
+    (`step_rk2_mp`), TVD RK2 (`step_rk2_tvd`), and TVD RK3 (`step_rk3_tvd`).
 
 
 
