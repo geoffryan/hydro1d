@@ -9,11 +9,11 @@ conditions for other projects.
 
 ## Installation ##
 
-To install, just type 'make'!
+To install, just type `make`!
 
 ### Visualization Requirements ###
 
-Some simple python visualization scripts are included in 'vis/'. They require
-'numpy' and 'matplotlib' python libraries to function correctly.
+Some simple python visualization scripts are included in `vis/`. They require
+`numpy` and `matplotlib` python libraries to function correctly.
 
 
